@@ -1,17 +1,19 @@
 import random
-import numpy as np
+from collections import deque
 
 class Room():
     """
       creates a room.
     """
-    def __init__(self):
+    def __init__(self,a,b):
+        self.row = a
+        self.col = b
         #corresponds to the four doors North, South, West and East.
         #initially all doors are open and so set to true.
         self.doors = [True, True, True, True]
 
     def __str__(self):
-        return "room"
+        return (f"room:({self.row},{self.col})")
 
 class RoomFactory():
     def create_rooms(r,c):
@@ -22,10 +24,10 @@ class RoomFactory():
         :return: list of lists of rows
         """
         rooms = []
-        for num in range(r):
+        for num1 in range(r):
             rows = []
-            for num in range(c):
-                rows.append(Room())
+            for num2 in range(c):
+                rows.append(Room(num1,num2))
             rooms.append(rows)
         #establishing the closed doors for the rooms in the outer borders.
         for room in rooms[0]:
@@ -70,7 +72,7 @@ class Dungeon():
             random_room = self.grid[random_row][random_col]
             random_door = random.choice(range(0,4))
             if not random_room.doors[random_door]:
-                break
+                continue
             else:
                 random.choice(range(0,self.columns))
                 print(random_row,random_col)
@@ -78,9 +80,24 @@ class Dungeon():
                 count += 1
             print("deleted",random_room.doors)
 
+    def traversable_bfs(self):
+        queue = deque()
+        queue.append(self.grid[0][0])
+        while len(queue)>0:
+            node = queue.popleft()
+            if node == self.exit:
+                return True
+            if node.doors[0]:
+                queue.append(self.grid[node.row-1][node.col])
+            if node.doors[1]:
+                queue.append(self.grid[node.row+1][node.col])
+            if node.doors[2]:
+                queue.append(self.grid[node.row][node.col-1])
+            if node.doors[3]:
+                queue.append(self.grid[node.row][node.col+1])
+        return False
 
 d1 = Dungeon(5,5)
 print(d1.__str__())
-print(d1.entrance)
-print(d1.exit)
 d1.gen_maze()
+print("Traversable:",d1.traversable_bfs())
