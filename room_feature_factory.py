@@ -1,4 +1,5 @@
-from random import randint, choice
+from random import choice
+
 from healing_potion import HealingPotion
 from obstacle import Obstacle
 
@@ -7,7 +8,8 @@ HEALING_POTION = 20
 OBSTACLE_DAMAGE = 50
 OBSTACLES = {
   'Pit': 'You fall into a pit filled with spikes',
-  'Trip-wire': 'You trip a tripe wire and are shot with a baker\'s dozen arrows'
+
+  'Trip-wire': 'You trip a trip wire and are shot with a baker\'s dozen arrows'
 }
 
 class RoomFeatureFactory:
