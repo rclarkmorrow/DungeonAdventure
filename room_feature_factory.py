@@ -9,7 +9,9 @@ OBSTACLE_DAMAGE = 50
 OBSTACLES = {
   'Pit': 'You fall into a pit filled with spikes',
 
-  'Trip-wire': 'You trip a trip wire and are shot with a baker\'s dozen arrows'
+  'Trip-wire': 'You trip a trip wire and are shot with a baker\'s dozen arrows',
+
+  'Quicksand': 'You fell into a quicksand and are trapped',
 }
 
 class RoomFeatureFactory:
