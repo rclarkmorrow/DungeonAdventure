@@ -1,79 +1,46 @@
-from random import randint
+import random
+from roomfeature import RoomFeature
+from healing_potion import HealthPotion
+from vision_potion import VisionPotion
+from pit import Pit
+from roomfactory import RoomFactory
+
 
 class Room:
 
     def __init__(self):
         self.__healthPotion = False
         self.__visionPotion = False
-        self.__pillar = None
+        self.__pillar = None  # A I P E
         self.__pit = False
+        self.__entrance = False
         self.__exit = False
-        self.__eastDoor = True
-        self.__westDoor = True
-        self.__northDoor = True
-        self.__southDoor = True
         self.__impassable = False
         self.__visited = False
         self.__items = []  # objects can be Potion (Vision or Health), Pit
 
     def __str__(self):
-        if self.northDoor:
-            print("* * *" + "\n")
+        print("* _ *" + "\n" + "|")
+        if self.__pit:
+            print(" P ")
+        elif len(self.__items) > 1 or len(self.__items) > 0 and self._pillar is not None:
+            print(" M ")
+        elif self.healthpotion:
+            print(" H ")
+        elif self.visionpotion:
+            print(" V ")
+        elif self.pillars is not None:
+            print(str(self.__pillar))
         else:
-            print("* _ *" + "\n")
-
-        if self.eastDoor:
-            print("*")
-            if self.__pit:
-                print(" P ")
-            elif count(self.items) > 2:
-                print(" M ")
-            elif self.healthpotion:
-                print(" H ")
-            elif self.visionpotion:
-                print(" V ")
-            elif self.pillars is not None:
-                print(str(self.__pillar))
-            else:
-                print("  ")
+            print("  " + "|" + "\n" + "* _ *")
+        if self.__entrance:
+            return "Start"
+        elif self.__exit:
+            return "Exit"
+        elif self.__impassable:
+            return "Blocked"
         else:
-            print("|")
-            if self.__pit:
-                print(" P ")
-            elif count(self.items) > 2:
-                print(" M ")
-            elif self.healthpotion:
-                print(" H ")
-            elif self.visionpotion:
-                print(" V ")
-            elif self.pillars is not None:
-                print(str(self.__pillar))
-            else:
-                print("  ")
-
-        if self.westDoor:
-            print("x" + "\n")
-        else:
-            print("|" + "\n")
-
-        if self.southDoor:
-            print("* * *")
-        else:
-            print("* _ *")
-
-    # the Dungeon should manage the random value
-    # that places in the room
-    def set_health(self, heath_potion: Potion):
-        self.__healthPotion = True
-        self.__items.append(heath_potion)
-
-    def set_vision(self, vision_potion: int):
-        self.__visionPotion = True
-        self.__items.append(vision_potion)
-
-    def set_pit(self, pit: Pit):
-        self.__pit = True
-        self.__items.append(pit)
+            return "Room"
 
     def can_enter(self):
         return not self.__impassable and not self.__visited
@@ -85,17 +52,7 @@ class Room:
         self.__visited = value
 
     def set_entrance(self, value: bool):
-        self.__entrance: value
+        self.__entrance = value
 
     def set_exit(self, value: bool):
-        self.__exit: value
-
-
-class Potion:  # vision or health
-    def __init__(self, point):
-        self.point = point
-
-
-class Pit:  # pit
-    def __init__(self, damage):
-        self.damage = damage
+        self.__exit = value
