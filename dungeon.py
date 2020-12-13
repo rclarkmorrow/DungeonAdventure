@@ -1,6 +1,7 @@
 import random
 from collections import deque
 
+
 class Room():
     """
       creates a room.
@@ -8,7 +9,7 @@ class Room():
     def __init__(self):
         self.__healthPotion = False
         self.__visionPotion = False
-        self.__pillar = "No pillar"
+        self.__pillar = False
         self.__pit = False
         self.__exit = False
         self.__entrance = False
@@ -45,6 +46,8 @@ class Room():
             return "exit"
         elif self.__impassable:
             return "bloc"
+        elif self.__pillar:
+            return "pill"
         else:
             return "room"
 
@@ -64,6 +67,9 @@ class Room():
     def is_impassable(self):
         return self.__impassable
 
+    def is_visited(self):
+        return self.__visited
+
     def set_visited(self, visited):
         self.__visited = visited
 
@@ -76,6 +82,11 @@ class Room():
     def set_impassable(self):
         self.__impassable = True
 
+    def is_empty(self):
+        return not (self.__healthPotion or self.__visionPotion or self.__pillar)
+
+    def set_pillar(self, value):
+        self.__pillar = value
 
 class Dungeon():
     """
@@ -85,46 +96,93 @@ class Dungeon():
         self.__maze = []
         self.__rowCount = row_count
         self.__colCount = col_count
-        self.__block = block
+        self.__blockFactor = block
         self.entrance_pos = None
         self.exit_pos = None
         self.build_maze()
+        self.adventurer_pos = self.entrance_pos
+
+    def pick_random_empty_room(self):
+        """
+          Randomly selects an empty room in the maze
+          that is not an entrance and not an exit
+          and is not blocked.
+          :return: tuple - co-ord of the random room in the maze.
+        """
+        while True:
+            rand_row = random.randrange(0,self.__rowCount)
+            rand_col = random.randrange(0,self.__colCount)
+            rand_room = self.__maze[rand_row][rand_col]
+            if rand_room.is_empty() and not rand_room.is_entrance() \
+                    and not rand_room.is_exit() and not rand_room.is_impassable():
+                return rand_row,rand_col
+
+
+    def set_entrance(self):
+        """
+          To randomly set an empty room as the entrance
+        """
+        self.entrance_pos = self.pick_random_empty_room()
+        self.__maze[self.entrance_pos[0]][self.entrance_pos[1]].set_entrance()
+        print(f"entrance: {self.entrance_pos}")
+
+    def set_exit(self):
+        """
+          To randomly set an empty room as the exit
+        """
+        self.exit_pos = self.pick_random_empty_room()
+        self.__maze[self.exit_pos[0]][self.exit_pos[1]].set_exit()
+        print(f"exit: {self.exit_pos}")
+
+    def block_rooms(self):
+        """
+          Make some empty rooms impassible (making 5 rooms impassable)
+        """
+        block = 0
+        while block < self.__blockFactor*self.__rowCount*self.__colCount:
+            rand_pos = self.pick_random_empty_room()
+            self.__maze[rand_pos[0]][rand_pos[1]].set_impassable()
+            block += 1
+            print(f"blocked room: {rand_pos}")
+
+    def set_pillars(self):
+        """
+          Set the pillars(randomly pick empty rooms that are traverse-able)
+        """
+        pillar_count = 0
+        pillars = ["ABST","ENCA","INHE","POLY"]
+        while pillar_count < len(pillars):
+            rand_pos = self.pick_random_empty_room()
+            if self.__maze[rand_pos[0]][rand_pos[1]].is_visited:
+                self.__maze[rand_pos[0]][rand_pos[1]].set_pillar(pillars[pillar_count])
+                print(f"{pillars[pillar_count]} at: {rand_pos}")
+                pillar_count += 1
 
     def build_maze(self):
+        """
+          Creates a 2D grid (list of lists) of rooms.
+          Sets a random unblocked empty room as the entrance, exit
+          and randomly blocks a specific number of rooms
+          depending on the blockFactor.
+          Ensures exit is reachable from the entrance and updates
+          visited field of all traverse-able rooms in the maze.
+        """
+        self.__maze = []
         # Adding rooms to the maze (Default 2D grid of rooms)
         for r in range(0, self.__rowCount):
             self.__maze.append([Room() for c in range(0, self.__colCount)])
-        # To randomly set an entrance and exit
-        rand_row = random.randrange(0,self.__rowCount)
-        rand_col = random.randrange(0,self.__colCount)
-        self.__maze[rand_row][rand_col].set_entrance()
-        self.entrance_pos = [rand_row, rand_col]
-        print(f"entrance:[{rand_row}][{rand_col}]")
-        count = 0
-        while count == 0:
-            rand_row = random.randrange(0,self.__rowCount)
-            rand_col = random.randrange(0,self.__colCount)
-            if not self.__maze[rand_row][rand_col].is_entrance():
-                self.__maze[rand_row][rand_col].set_exit()
-                self.exit_pos = [rand_row, rand_col]
-                print(f"exit:[{rand_row}][{rand_col}]")
-                count += 1
-        # make some rooms impassible (making 5 rooms impassable)
-        block = 0
-        while block < self.__block*self.__rowCount*self.__colCount:
-            rand_row = random.randrange(0,self.__rowCount)
-            rand_col = random.randrange(0,self.__colCount)
-            if not self.__maze[rand_row][rand_col].is_entrance() and \
-                    not self.__maze[rand_row][rand_col].is_exit() and \
-                    not self.__maze[rand_row][rand_col].is_impassable():
-                self.__maze[rand_row][rand_col].set_impassable()
-                block += 1
-                print(f"blocked room at [{rand_row}][{rand_col}]")
-        #Check maze is traversable from entrance to exit and get a list of rooms that can be reached.
+        # Setting entrance and exit of the maze
+        self.set_entrance()
+        self.set_exit()
+        # Making some rooms impassable
+        self.block_rooms()
+        # Check maze is traverse-able from entrance to exit and a list of rooms that can be reached.
         reachable_exit_rooms = self.bfs_reachable_exit_rooms(self.entrance_pos[0],self.entrance_pos[1])
-        print("test",reachable_exit_rooms)
+        print("traversable",reachable_exit_rooms)
         if not reachable_exit_rooms:  #exit is not reachable
             self.build_maze()
+        # Placing the four pillars
+        self.set_pillars()
 
     def __str__(self):
         out_li = []
@@ -132,15 +190,14 @@ class Dungeon():
             out_li.append(",".join([item.__str__() for item in row]))
         return "\n".join(out_li)
 
-    def print_maze(self):
-        # print(self.__maze)
-        for row in range(0, self.__rowCount):
-            print("row ", row)
-            for col in range(0, self.__colCount):
-                print(self.__maze[row][col].__str__())
-            print()
-
     def bfs_reachable_exit_rooms(self,row,col):
+        """
+          Performs a BFS of the maze and checks exit is reachable from entrance
+          and updates the visited field of all rooms that can reached.
+        :param row: Int index
+        :param col: Int index
+        :return: Bool (if exit is reachable)
+        """
         queue = deque()
         queue.append((row,col))
         found_Exit = False
@@ -162,44 +219,79 @@ class Dungeon():
                 queue.append((node[0],node[1]+1))
         return found_Exit
 
-    #initial call if you know entrance is 0,0 would be traverse(0, 0)
-    def traverse(self, row, col):
-        print(row,col)
-        found_exit = False
-        if self.is_valid_room(row, col):
-            self.__maze[row][col].set_visited(True)
-            # check for exit
-            if self.__maze[row][col].is_exit():
-                return True
-            # not at exit so try another room: south, east, north, west
-            found_exit = self.traverse(row + 1, col)#south
-            if not found_exit:
-                found_exit = self.traverse(row, col + 1)#east
-            if not found_exit:
-                found_exit = self.traverse(row - 1, col)#north
-            if not found_exit:
-                found_exit = self.traverse(row, col - 1)#west
-
-            # if we did not reach the exit from this room we need mark it as visited to
-            # avoid going into the room again
-            if not found_exit:
-                self.__maze[row][col].set_visited(True)
-
-        else:  # tried to move into a room that is not valid
-            return False
-        return found_exit
-
     def is_valid_room(self, row, col):
+        """
+          Helper function to check maze traversal.
+          Returns true if row,col is a valid room in the maze and if it can be entered.
+          (not blocked and not visited)
+        :param row: Int index
+        :param col: Int index
+        :return: Bool
+        """
         return 0 <= row < self.__rowCount and 0 <= col < self.__colCount and self.__maze[row][col].can_enter()
 
+    def update_adv_pos(self,value):
+        """
+          Updates the position of the adventurer in the maze depending on the user input
+        :return: Updated(current) position of the adventurer after the move.
+        """
+        if value == "N" or value == "n":
+            print("moving north")
+            if self.check_room(self.adventurer_pos[0]-1,self.adventurer_pos[1]):
+                print("upd")
+                self.adventurer_pos = (self.adventurer_pos[0]-1,self.adventurer_pos[1])
+            else:
+                print("Cannot enter this location")
+        elif value == "S" or value == "s":
+            print("moving south")
+            if self.check_room(self.adventurer_pos[0]+1,self.adventurer_pos[1]):
+                print("upd")
+                self.adventurer_pos = (self.adventurer_pos[0]+1,self.adventurer_pos[1])
+            else:
+                print("Cannot enter this location")
+        elif value == "W" or value == "w":
+            print("moving west")
+            if self.check_room(self.adventurer_pos[0],self.adventurer_pos[1]-1):
+                print("upd")
+                self.adventurer_pos = (self.adventurer_pos[0],self.adventurer_pos[1]-1)
+            else:
+                print("Cannot enter this location")
+        elif value == "E" or value == "e":
+            print("moving east")
+            if self.check_room(self.adventurer_pos[0],self.adventurer_pos[1]+1):
+                print("upd")
+                self.adventurer_pos = (self.adventurer_pos[0],self.adventurer_pos[1]+1)
+            else:
+                print("Cannot enter this location")
+
+    def check_room(self, row, col):
+        """
+          Helper function to see room exists and can be entered by the adventurer.
+          Returns true if row,col is a valid room in the maze and if it can be entered.
+          (not blocked)
+        :param row: Int index
+        :param col: Int index
+        :return: Bool
+        """
+        return 0 <= row < self.__rowCount and 0 <= col < self.__colCount and not self.__maze[row][col].is_impassable()
+
+    def display_curr_room(self):
+        """
+          Display the current room
+        :return: String representation of the current room
+        """
+        print("Current room:",self.__maze[self.adventurer_pos[0]][self.adventurer_pos[1]])
+
+    def get_user_input(self):
+        while True:
+            try:
+                self.display_curr_room()
+                user_input = str(input("Enter the direction you want to move(N, S, E, W):"))
+                self.update_adv_pos(user_input)
+            except ValueError:
+                print("Error: Invalid input type.")
 
 d1 = Dungeon(5,5)
-#d1.print_maze()
 print(d1)
-#print("Traversable:",d1.traversable_bfs(d1.entrance_pos[0],d1.entrance_pos[1]))
-"""
-if d1.traverse(d1.entrance_pos[0],d1.entrance_pos[1]):
-    print("whoo hoo, we reached the exit")
-else:
-    print("exit not reachable")
-"""
+while True:
+    d1.get_user_input()
