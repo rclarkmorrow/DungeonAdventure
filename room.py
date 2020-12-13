@@ -23,14 +23,6 @@ class Room:
             print(str(self.__pillar))
         else:
             print("  " + "|" + "\n" + "* _ *")
-        if self.__entrance:
-            return "Start"
-        elif self.__exit:
-            return "Exit"
-        elif self.__impassable:
-            return "Blocked"
-        else:
-            return "Room"
 
     @property
     def can_enter(self):

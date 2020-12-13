@@ -51,7 +51,6 @@ class Room():
         else:
             return "room"
 
-
     def set_health(self, add_potion):
         self.__healthPotion = add_potion
 
@@ -97,10 +96,10 @@ class Dungeon():
         self.__rowCount = row_count
         self.__colCount = col_count
         self.__blockFactor = block
-        self.entrance_pos = None
-        self.exit_pos = None
+        self.__entrance_pos = None
+        self.__exit_pos = None
         self.build_maze()
-        self.adventurer_pos = self.entrance_pos
+        self.__adventurer_pos = self.__entrance_pos
 
     def pick_random_empty_room(self):
         """
@@ -117,22 +116,21 @@ class Dungeon():
                     and not rand_room.is_exit() and not rand_room.is_impassable():
                 return rand_row,rand_col
 
-
     def set_entrance(self):
         """
           To randomly set an empty room as the entrance
         """
-        self.entrance_pos = self.pick_random_empty_room()
-        self.__maze[self.entrance_pos[0]][self.entrance_pos[1]].set_entrance()
-        print(f"entrance: {self.entrance_pos}")
+        self.__entrance_pos = self.pick_random_empty_room()
+        self.__maze[self.__entrance_pos[0]][self.__entrance_pos[1]].set_entrance()
+        print(f"entrance: {self.__entrance_pos}")
 
     def set_exit(self):
         """
           To randomly set an empty room as the exit
         """
-        self.exit_pos = self.pick_random_empty_room()
-        self.__maze[self.exit_pos[0]][self.exit_pos[1]].set_exit()
-        print(f"exit: {self.exit_pos}")
+        self.__exit_pos = self.pick_random_empty_room()
+        self.__maze[self.__exit_pos[0]][self.__exit_pos[1]].set_exit()
+        print(f"exit: {self.__exit_pos}")
 
     def block_rooms(self):
         """
@@ -145,18 +143,18 @@ class Dungeon():
             block += 1
             print(f"blocked room: {rand_pos}")
 
-    def set_pillars(self):
+    def set_treasures(self):
         """
           Set the pillars(randomly pick empty rooms that are traverse-able)
         """
-        pillar_count = 0
-        pillars = ["ABST","ENCA","INHE","POLY"]
-        while pillar_count < len(pillars):
+        treasure_count = 0
+        treasures = ["ABST","ENCA","INHE","POLY"]
+        while treasure_count < len(treasures):
             rand_pos = self.pick_random_empty_room()
             if self.__maze[rand_pos[0]][rand_pos[1]].is_visited:
-                self.__maze[rand_pos[0]][rand_pos[1]].set_pillar(pillars[pillar_count])
-                print(f"{pillars[pillar_count]} at: {rand_pos}")
-                pillar_count += 1
+                self.__maze[rand_pos[0]][rand_pos[1]].set_treasure(treasures[treasure_count])
+                print(f"{treasures[treasure_count]} at: {rand_pos}")
+                treasure_count += 1
 
     def build_maze(self):
         """
@@ -177,12 +175,12 @@ class Dungeon():
         # Making some rooms impassable
         self.block_rooms()
         # Check maze is traverse-able from entrance to exit and a list of rooms that can be reached.
-        reachable_exit_rooms = self.bfs_reachable_exit_rooms(self.entrance_pos[0],self.entrance_pos[1])
+        reachable_exit_rooms = self.bfs_reachable_exit_rooms(self.__entrance_pos[0],self.__entrance_pos[1])
         print("traversable",reachable_exit_rooms)
         if not reachable_exit_rooms:  #exit is not reachable
             self.build_maze()
         # Placing the four pillars
-        self.set_pillars()
+        self.set_treasures()
 
     def __str__(self):
         out_li = []
@@ -237,30 +235,30 @@ class Dungeon():
         """
         if value == "N" or value == "n":
             print("moving north")
-            if self.check_room(self.adventurer_pos[0]-1,self.adventurer_pos[1]):
+            if self.check_room(self.__adventurer_pos[0]-1,self.__adventurer_pos[1]):
                 print("upd")
-                self.adventurer_pos = (self.adventurer_pos[0]-1,self.adventurer_pos[1])
+                self.__adventurer_pos = (self.__adventurer_pos[0]-1,self.__adventurer_pos[1])
             else:
                 print("Cannot enter this location")
         elif value == "S" or value == "s":
             print("moving south")
-            if self.check_room(self.adventurer_pos[0]+1,self.adventurer_pos[1]):
+            if self.check_room(self.__adventurer_pos[0]+1,self.__adventurer_pos[1]):
                 print("upd")
-                self.adventurer_pos = (self.adventurer_pos[0]+1,self.adventurer_pos[1])
+                self.__adventurer_pos = (self.__adventurer_pos[0]+1,self.__adventurer_pos[1])
             else:
                 print("Cannot enter this location")
         elif value == "W" or value == "w":
             print("moving west")
-            if self.check_room(self.adventurer_pos[0],self.adventurer_pos[1]-1):
+            if self.check_room(self.__adventurer_pos[0],self.__adventurer_pos[1]-1):
                 print("upd")
-                self.adventurer_pos = (self.adventurer_pos[0],self.adventurer_pos[1]-1)
+                self.__adventurer_pos = (self.__adventurer_pos[0],self.__adventurer_pos[1]-1)
             else:
                 print("Cannot enter this location")
         elif value == "E" or value == "e":
             print("moving east")
-            if self.check_room(self.adventurer_pos[0],self.adventurer_pos[1]+1):
+            if self.check_room(self.__adventurer_pos[0],self.__adventurer_pos[1]+1):
                 print("upd")
-                self.adventurer_pos = (self.adventurer_pos[0],self.adventurer_pos[1]+1)
+                self.__adventurer_pos = (self.__adventurer_pos[0],self.__adventurer_pos[1]+1)
             else:
                 print("Cannot enter this location")
 
@@ -280,7 +278,7 @@ class Dungeon():
           Display the current room
         :return: String representation of the current room
         """
-        print("Current room:",self.__maze[self.adventurer_pos[0]][self.adventurer_pos[1]])
+        print("Current room:",self.__maze[self.__adventurer_pos[0]][self.__adventurer_pos[1]])
 
     def get_user_input(self):
         while True:
