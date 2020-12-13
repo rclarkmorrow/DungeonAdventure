@@ -23,6 +23,14 @@ class AdventurerFactory:
                              ' an integer')
 
     @staticmethod
+    def is_string(some_input):
+        if isinstance(some_input, str):
+            return some_input
+        else:
+            raise ValueError('value must be a string')
+
+    @staticmethod
     def create_adventurer(name=choice(DEFAULT_NAMES),
                           hit_points=randint(MIN_HP, MAX_HP)):
-        return Adventurer(name, AdventurerFactory.to_integer(hit_points))
+        return Adventurer(AdventurerFactory.is_string(name),
+                          AdventurerFactory.to_integer(hit_points))
