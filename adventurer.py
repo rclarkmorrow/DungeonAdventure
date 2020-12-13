@@ -1,12 +1,8 @@
-from observer import Observer
-
-
-class Adventurer(Observer):
-    def __init__(self, observable, name, hit_points):
-        super().__init__(observable)
+class Adventurer:
+    def __init__(self, name, hit_points):
         self.__name = name
         self.__hit_points = hit_points
-        self.__inventory = []
+        self.__pillars_found = []
 
     def __str__(self):
         return (f'Adventurer: {self.__name}\n'
@@ -22,30 +18,35 @@ class Adventurer(Observer):
         return self.__hit_points
 
     @property
-    def inventory(self):
-        return self.__inventory
+    def pillars_found(self):
+        return self.__pillars_found
 
     def use_healing_potion(self, potion):
+        """
+          This method is called when the adventurer encounters a
+          healing potion. For now it only adds HP value of the potion
+          to the adventurer, but it is a separate method so that we can
+          add other logic (such as adventurer inventory) later if we want.
+        """
         self.__add_health(potion.hit_points)
-        self.__remove_item(potion)
+
+    def encounter_obstace(self, obstacle):
+        """
+          This method is called when the adventurer encounters an obstacle.
+          For now it only removes HP value of the obstacle from the adventurer,
+          but it is a separate method so that we can add obstacles with other
+          effects later if we want to.
+        """
+        self.__remove_health(obstacle.hit_points)
+
+    def find_pillar(self, pillar):
+        """ Method adds a pillar to adventurer's found pillars list. """
+        self.__pillars_found.append(pillar)
 
     def __add_health(self, number):
+        """ Adds specified value to adventurer's hit points. """
         self.__hit_points += number
 
-    def __remove_health(self, obstacle):
-        self.__hit_points -= obstacle.hit_points
-
-    def __add_item(self, item):
-        self.__inventory.append(item)
-
-    def __remove_item(self, item):
-        self.__inventory.remove(item)
-
-    def notify(self, **kwargs):
-        for key, value in kwargs:
-            if key == 'Item':
-                self.__add_item(value)
-            if key = 'Obstacle':
-                self.__remove_health(value)
-
-        # Placeholder for possible notification from game.
+    def __remove_health(self, number):
+        """ Remvoes specified value from adventurer's hit points. """
+        self.__hit_points -= number

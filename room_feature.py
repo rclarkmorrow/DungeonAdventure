@@ -25,9 +25,8 @@ class RoomFeature(ABC):
     def effect(self):
         pass
 
-    @abstractmethod
     def __str__(self):
-        pass
+        return
 
     @classmethod
     def __subclasshook__(cls, subclass):
