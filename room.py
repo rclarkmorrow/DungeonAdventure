@@ -63,24 +63,24 @@ class Room:
         self.__exit = value
 
     @property
-    def g_items(self):
-        return self.items
+    def g_items(self, item):
+        return self.items.pop(item)
 
     @add_items.setter
     def add_items(self, item):
         self.items.append(item)
 
     @property
-    def g_features(self):
-        return self.features
+    def g_features(self, feature):
+        return self.features.pop(feature)
 
     @add_features.setter
     def add_features(self, features):
         self.features.append(features)
 
     @property
-    def g_obstacles(self):
-        return self.obstacles
+    def g_obstacles(self, obstacle):
+        return self.obstacles.pop(obstacle)
 
     @add_features.setter
     def add_obstacles(self, obstacles):
