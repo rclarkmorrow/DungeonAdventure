@@ -2,12 +2,13 @@ class Adventurer:
     def __init__(self, name, hit_points):
         self.__name = name
         self.__hit_points = hit_points
-        self.__pillars_found = []
-        self.__vision = count
+        self.__treasures_found = []
+        self.__inventory = []
 
     def __str__(self):
-        return (f'Adventurer: {self.__name}\n'
+        return (f'Adventurer: {self.name}\n'
                 f'Hit Points: {self.hit_points}\n'
+                f'Treasures Found: {self.treasures_found}\n'
                 f'Inventory: {self.inventory}')
 
     @property
@@ -19,8 +20,21 @@ class Adventurer:
         return self.__hit_points
 
     @property
-    def pillars_found(self):
-        return self.__pillars_found
+    def treasures_found(self):
+        return self.__treasures_found
+
+    @property
+    def inventory(self):
+        return self.__inventory
+
+    def add_item(self, item):
+        """ Adds vision potion to adventurer's utility belt """
+        self.__inventory.append(item)
+
+    def remove_item(self, item):
+        """ Removes vision potion from adventurer's utility belt """
+        if item in self.__inventory:
+            self.__inventory.remove(item)
 
     def use_healing_potion(self, potion):
         """
@@ -30,6 +44,7 @@ class Adventurer:
           add other logic (such as adventurer inventory) later if we want.
         """
         self.__add_health(potion.hit_points)
+        self.remove_item(potion)
 
     def encounter_obstacle(self, obstacle):
         """
@@ -40,9 +55,9 @@ class Adventurer:
         """
         self.__remove_health(obstacle.hit_points)
 
-    def find_pillar(self, pillar):
+    def find_treasure(self, treasure):
         """ Method adds a pillar to adventurer's found pillars list. """
-        self.__pillars_found.append(pillar)
+        self.__treasires_found.append(treasure)
 
     def __add_health(self, number):
         """ Adds specified value to adventurer's hit points. """
@@ -51,11 +66,3 @@ class Adventurer:
     def __remove_health(self, number):
         """ Removes specified value from adventurer's hit points. """
         self.__hit_points -= number
-
-    def __add_vision(self):
-        """ Adds vision potion to adventurer's utility belt """
-        self.__vision += 1
-
-    def __remove_vision(self):
-        """ Removes vision potion from adventurer's utility belt """
-        self.__hit_points -= 1

@@ -10,12 +10,22 @@ class Obstacle(RoomFeature):
         super().__init__(name, 'Obstacle')
         self.__effect = effect
         self.__hit_points = hit_points
+        self.__description = (f'An obstacle ({name}) that deals'
+                              f' {self.__hit_points} damage.')
 
+    @property
+    def description(self):
+        """
+        Returns a string describing the obstacle.
+        """
+        return self.__description
+
+    @property
     def effect(self):
         """
         Returns a string of the effect of the obstacle
         """
-        return f'A obstacle that deals {self.__hit_points} damage'
+        return f'{self.__effect} and take {self.__hit_points} damage.'
 
     @property
     def hit_points(self):

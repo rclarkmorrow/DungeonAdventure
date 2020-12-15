@@ -11,13 +11,20 @@ class HealingPotion(RoomFeature):
         super().__init__(f'Healing Potion ({hit_points})', 'Item')
         self.__hit_points = hit_points
 
+    @property
+    def description(self):
+        """
+        Returns a string of the hit points that the Healing potion heals.
+        """
+        return f'A potion that heals {self.hit_points} hit points.'
 
     @property
     def effect(self):
         """
-        Returns a string of the hit points that the Healing potion heals.
+        You take a healing potion and gain {self.}
         """
-        return f'A potion that heals {self.__hit_points} hit points.'
+        return (f'You take a healing potion and gain {self.hit_points}'
+                ' hit points.')
 
     @property
     def hit_points(self):

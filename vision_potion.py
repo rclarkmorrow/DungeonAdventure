@@ -10,15 +10,17 @@ class VisionPotion(RoomFeature):
         super().__init__(f'Vision Potion ({self.__vision})', 'Item')
         self.__vision = vision
 
-    def effect(self):
+    @property
+    def description(self):
         """
-        Returns a string of stating that the potion reveals the surrounding rooms
+        Returns a string that is a description of what the potion will do.
         """
-        return f'A potion that reveals the surrounding rooms of current'
+        return 'A potion that reveals the rooms surrounding the current room.'
 
     @property
-    def vision(self):
+    def effect(self):
         """
-        Returns vision potion
+        Returns a string describing the use of hte potion
         """
-        return self.__vision
+        return ('You use the vision potion, and mystical forces allow you to'
+                'see the surrounding area.')
