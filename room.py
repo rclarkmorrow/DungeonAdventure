@@ -1,6 +1,11 @@
 class Room:
 
     def __init__(self):
+        """
+        Abstract base class for a room, should not be
+        used for a concrete object.
+        """
+        self.features = []
         self.items = []
         self.obstacles = []
         self.__pillar = None  # A I P E
@@ -10,15 +15,20 @@ class Room:
         self.__visited = False
 
     def __str__(self):
+        """
+        Returns string representation of the current room and features
+        """
         print("* _ *" + "\n" + "|")
-        if self.__obstacles:
-            print(" O ")
-        elif len(self.__items) > 1:
+        if len(self.__features)>1:
             print(" M ")
-        elif self.h:
+        elif len(self.items)>1:
+            print(" M ")
+        elif HealthPotion() in self.items:
             print(" H ")
-        elif self.visionpotion:
+        elif VisionPotion() in self.items:
             print(" V ")
+        elif self.obstacles:
+            print(" O ")
         elif self.pillars is not None:
             print(str(self.__pillar))
         else:
@@ -51,3 +61,27 @@ class Room:
     @is_exit.setter
     def is_exit(self, value: bool):
         self.__exit = value
+
+    @property
+    def g_items(self):
+        return self.items
+
+    @add_items.setter
+    def add_items(self, item):
+        self.items.append(item)
+
+    @property
+    def g_features(self):
+        return self.features.remove(feature)
+
+    @add_features.setter
+    def add_features(self, features):
+        self.features.append(features)
+
+    @property
+    def g_obstacles(self):
+        return self.obstacles.remove(obstacle)
+
+    @add_features.setter
+    def add_obstacles(self, obstacles):
+        self.obstacles.append(obstacles)

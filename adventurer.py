@@ -3,6 +3,7 @@ class Adventurer:
         self.__name = name
         self.__hit_points = hit_points
         self.__pillars_found = []
+        self.__vision = count
 
     def __str__(self):
         return (f'Adventurer: {self.__name}\n'
@@ -30,7 +31,7 @@ class Adventurer:
         """
         self.__add_health(potion.hit_points)
 
-    def encounter_obstace(self, obstacle):
+    def encounter_obstacle(self, obstacle):
         """
           This method is called when the adventurer encounters an obstacle.
           For now it only removes HP value of the obstacle from the adventurer,
@@ -48,5 +49,13 @@ class Adventurer:
         self.__hit_points += number
 
     def __remove_health(self, number):
-        """ Remvoes specified value from adventurer's hit points. """
+        """ Removes specified value from adventurer's hit points. """
         self.__hit_points -= number
+
+    def __add_vision(self):
+        """ Adds vision potion to adventurer's utility belt """
+        self.__vision += 1
+
+    def __remove_vision(self):
+        """ Removes vision potion from adventurer's utility belt """
+        self.__hit_points -= 1
