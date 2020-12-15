@@ -72,7 +72,7 @@ class Room:
 
     @property
     def g_features(self):
-        return self.features.remove(feature)
+        return self.features
 
     @add_features.setter
     def add_features(self, features):
@@ -80,7 +80,7 @@ class Room:
 
     @property
     def g_obstacles(self):
-        return self.obstacles.remove(obstacle)
+        return self.obstacles
 
     @add_features.setter
     def add_obstacles(self, obstacles):
