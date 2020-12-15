@@ -25,7 +25,7 @@ class Obstacle(RoomFeature):
         """
         Returns a string of the effect of the obstacle
         """
-        return f'{self.__effect} and take {self.__hit_points} damage.'
+        return f'{self.__effect}\nYou take {self.__hit_points} damage.'
 
     @property
     def hit_points(self):
