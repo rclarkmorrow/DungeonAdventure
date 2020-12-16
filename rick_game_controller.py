@@ -51,24 +51,24 @@ class GameController:
             # Move commands
             if user_input == 'n' or user_input == 'north':
                 # Do move north
-                pass
+                self.__dungeon.update_adv_pos(-1,0)
             elif user_input == 's' or user_input == 'south':
                 # Do move south
-                pass
+                self.__dungeon.update_adv_pos(1,0)
             elif user_input == 'e' or user_input == 'east':
                 # Do move east
-                pass
+                self.__dungeon.update_adv_pos(0,1)
             elif user_input == 'w' or user_input == 'west':
                 # Do move west
-                pass
+                self.__dungeon.update_adv_pos(0,-1)
 
             # Status commands
             elif user_input == 'i' or user_input == 'info':
                 # Show adventurer status
-                pass
+                print(str(self.__adventurer))
             elif user_input == 'r' or user_input == 'room':
                 # Show room
-                pass
+                print(self.__dungeon.display_curr_room())
 
             # Use item commands
             elif user_input == 'p' or user_input == 'potion':
@@ -77,7 +77,9 @@ class GameController:
             elif user_input == 'v' or user_input == 'vision':
                 # Do vision
                 self.__adventurer.remove_item('Vision Potion')
-                pass
+                d = self.__dungeon.use_vision_potion()
+                for key,value in d.items():
+                    print(key, ":\n", value)
 
             # Game commands
             elif user_input == 'q' or user_input == 'quit':
