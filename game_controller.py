@@ -25,7 +25,7 @@ Movement commands:
   n, north to move the character north.
   s, south to move the character south.
   e, east to move the  character east.
-  w, west to move the characer west.
+  w, west to move the character west.
 Status commands:
   i, info to show adventurer status.
   r, room to show the current room.

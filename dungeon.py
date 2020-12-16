@@ -2,15 +2,11 @@ import random
 from collections import deque
 from room_factory import RoomFactory
 
-    # def set_treasure(self, value):
-    #     self.__treasure = value
-
-    # def get_treasure(self):
-    #     return self.__treasure
 
 class Dungeon():
     """
-      builds a dungeon
+      Builds a dungeon with a default 5 by 5 grid(list of lists) of rooms
+      and 10% of the rooms blocked.
     """
     def __init__(self, row_count = 5, col_count = 5, block = 0.2):
         self.__maze = []
@@ -25,8 +21,8 @@ class Dungeon():
     def pick_random_empty_room(self):
         """
           Randomly selects an empty room in the maze
-          that is not an entrance and not an exit
-          and is not blocked.
+          that is not an entrance, not an exit,
+          is not blocked and doesn't contain any features.
           :return: tuple - co-ord of the random room in the maze.
         """
         while True:
@@ -40,8 +36,8 @@ class Dungeon():
     def pick_random_room(self):
         """
           Randomly selects a room in the maze
-          that is not an entrance and not an exit
-          and is not blocked.
+          that is not an entrance, not an exit
+          and is not blocked. (may contain features.)
           :return: tuple - co-ord of the random room in the maze.
         """
         while True:
@@ -60,7 +56,7 @@ class Dungeon():
         """
         self.__entrance_pos = self.pick_random_empty_room()
         self.__maze[self.__entrance_pos[0]][self.__entrance_pos[1]].is_entrance = True
-        print(f"entrance: {self.__entrance_pos}")
+        # print(f"entrance: {self.__entrance_pos}")
 
     def set_exit(self):
         """
@@ -68,7 +64,7 @@ class Dungeon():
         """
         self.__exit_pos = self.pick_random_empty_room()
         self.__maze[self.__exit_pos[0]][self.__exit_pos[1]].is_exit = True
-        print(f"exit: {self.__exit_pos}")
+        # print(f"exit: {self.__exit_pos}")
 
     def block_rooms(self):
         """
@@ -79,7 +75,7 @@ class Dungeon():
             rand_pos = self.pick_random_empty_room()
             self.__maze[rand_pos[0]][rand_pos[1]].is_impassable = True
             block += 1
-            print(f"blocked room: {rand_pos}")
+            # print(f"blocked room: {rand_pos}")
 
     def set_treasures(self):
         """
@@ -92,7 +88,7 @@ class Dungeon():
             rand_pos = self.pick_random_room()
             if self.__maze[rand_pos[0]][rand_pos[1]].visited:
                 self.__maze[rand_pos[0]][rand_pos[1]].treasure = treasures[treasure_count]
-                print(f"{treasures[treasure_count]} at: {rand_pos}")
+                # print(f"{treasures[treasure_count]} at: {rand_pos}")
                 treasure_count += 1
 
     def build_maze(self):
@@ -116,13 +112,17 @@ class Dungeon():
         self.block_rooms()
         # Check maze is traverse-able from entrance to exit and a list of rooms that can be reached.
         reachable_exit_rooms = self.bfs_reachable_exit_rooms(self.__entrance_pos[0],self.__entrance_pos[1])
-        print("traversable", reachable_exit_rooms)
+        # print("traversable", reachable_exit_rooms)
         if not reachable_exit_rooms:  #exit is not reachable
             self.build_maze()
         # Placing the four pillars
         self.set_treasures()
 
     def __str__(self):
+        """
+          Returns the string representation of the maze (as a grid)
+        :return: String
+        """
         line_string = ''
         for row in self.__maze:
 
@@ -279,7 +279,7 @@ class Dungeon():
             dict_map["East Location:"] = "No room"
         # Room - SW
         if self.check_room_exists(self.__adventurer_pos[0]+1,self.__adventurer_pos[1]-1):
-            dict_map["SouthhWest Location:"] = str(self.__maze[self.__adventurer_pos[0]+1][self.__adventurer_pos[1]-1])[2:]
+            dict_map["SouthWest Location:"] = str(self.__maze[self.__adventurer_pos[0]+1][self.__adventurer_pos[1]-1])[2:]
         else:
             dict_map["SouthWest Location:"] = "No room"
         # Room - S

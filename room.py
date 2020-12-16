@@ -11,7 +11,7 @@ class Room:
         used for a concrete object.
         """
         self.__features = []
-        self.__treasure = None  # A I P E
+        self.__treasure = False  # A I P E
         self.__is_entrance = False
         self.__is_exit = False
         self.__is_impassable = False
@@ -28,7 +28,7 @@ class Room:
         elif self.__is_impassable:
             return "B: No Room (Blocked)"
         elif self.__treasure:
-            return str(self.__treasure[0])
+            return str(self.__treasure[0]) +": "+ str(self.__treasure)
         elif len(self.__features) > 1:
             return "M: Multiple Features"
         elif len(self.__features):
