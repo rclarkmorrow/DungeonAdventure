@@ -203,7 +203,7 @@ class GameController:
         # When the room has a treasure.
         if self.__current_room.treasure:
             self.__adventurer.find_treasure(self.__current_room.treasure)
-            room_string += f'You have found treasuer: {self.__current_room.treasure}!'
+            room_string += f'You have found treasure: {self.__current_room.treasure}!'
             self.__current_room.treasure = None
         if self.__adventurer.hit_points < 1:
             room_string += 'Oh noes, you have died! :\'('
