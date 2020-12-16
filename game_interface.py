@@ -1,6 +1,10 @@
 from game_controller import GameController
 
 WELCOME = ('Welcome to the Dungeon, it\'s got fun and games.')
+INTRO = ('\nYou descend a staircase into the dungeon of objects.'
+         '\nThe door slams closed behind you.\nTo escape you'
+         ' must find the four treasures that conquer\nobjects'
+         ' and reach the exit.\nGOOD LUCK!')
 
 
 class GameInterface:
@@ -20,6 +24,7 @@ class GameInterface:
     def __play_game(adventurer_name):
         game = GameController(adventurer_name)
         play = True
+        print(INTRO)
         while play:
             user_input = str(input('\nEnter your command (\'h\' or \'help\''
                                    ' for help) >>> '))
