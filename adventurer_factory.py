@@ -30,7 +30,9 @@ class AdventurerFactory:
             raise ValueError('value must be a string')
 
     @staticmethod
-    def create_adventurer(name=choice(DEFAULT_NAMES),
+    def create_adventurer(name=None,
                           hit_points=randint(MIN_HP, MAX_HP)):
+        if not name:
+            name = choice(DEFAULT_NAMES)
         return Adventurer(AdventurerFactory.is_string(name),
                           AdventurerFactory.to_integer(hit_points))

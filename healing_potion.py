@@ -16,7 +16,7 @@ class HealingPotion(RoomFeature):
         """
         Returns a string of the hit points that the Healing potion heals.
         """
-        return f'A potion that heals {self.hit_points} hit points.'
+        return f'A potion that heals {self.hit_points} hit points'
 
     @property
     def effect(self):

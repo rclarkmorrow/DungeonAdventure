@@ -8,9 +8,10 @@ class GameInterface:
     def init_game(play_game: bool):
         if play_game:
             print(WELCOME)
-            adventurer_name = str(input('Enter your adventurer\'s name or'
+            adventurer_name = str(input('\nEnter your adventurer\'s name or'
                                         ' press enter for a default name'
                                         ' >>> '))
+
             GameInterface.__play_game(adventurer_name)
         else:
             print('Thank you for playing. See you next time!')
@@ -20,13 +21,13 @@ class GameInterface:
         game = GameController(adventurer_name)
         play = True
         while play:
-            user_input = str(input('Enter your command (\'h\' or \'help\''
+            user_input = str(input('\nEnter your command (\'h\' or \'help\''
                                    ' for help) >>> '))
             result, play = game.user_input(user_input)
-            print(result)
+            print(f'\n{result}')
             # result, play = game.user_input(user_input)
             # print(result)
-        user_input = (str(input('Enter \'y\' or \'yes\' to play again >>> '))
+        user_input = (str(input('\nEnter \'y\' or \'yes\' to play again >>> '))
                       .lower())
         if user_input == 'y' or user_input == 'yes':
             GameInterface.init_game(True)

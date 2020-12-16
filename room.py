@@ -22,24 +22,24 @@ class Room:
         Returns string representation of the current room and features
         """
         if self.__is_entrance:
-            return "S"
+            return "S: Start"
         elif self.__is_exit:
-            return "X"
+            return "X: Exit"
         elif self.__is_impassable:
-            return "B"
+            return "B: No Room (Blocked)"
         elif self.__treasure:
             return str(self.__treasure[0])
         elif len(self.__features) > 1:
-            return "M"
+            return "M: Multiple Features"
         elif len(self.__features):
             if type(self.__features[0]) == HealingPotion:
-                return "H"
+                return "H: Healing Potion"
             elif type(self.__features[0]) == VisionPotion:
-                return "V"
+                return "V: Vision Potion"
             elif type(self.__features[0]) == Obstacle:
-                return "O"
+                return f"O: Obstacle ({self.__features[0].name})"
         else:
-            return " "
+            return " : Empty Room"
 
         # return_string = ''
         # return_string += ("* — *" + "\n" + "|")

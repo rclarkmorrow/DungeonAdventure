@@ -19,7 +19,7 @@ class VisionPotion(RoomFeature):
         """
         Returns a string that is a description of what the potion will do.
         """
-        return 'A potion that reveals the rooms surrounding the current room.'
+        return 'A potion that reveals the surrounding area'
 
     @property
     def effect(self):

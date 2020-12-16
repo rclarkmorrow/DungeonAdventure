@@ -9,10 +9,18 @@ class Adventurer:
         self.__treasure_found = []
 
     def __str__(self):
-        return (f'Adventurer: {self.name}\n'
-                f'Hit Points: {self.hit_points}\n'
-                f'Inventory: {self.inventory}\n'
-                f'Treasure Found: {self.treasure_found}')
+        return_string =  f'Adventurer: {self.name}\nHit Points: {self.hit_points}\n'
+        return_string += 'Inventory:\n'
+        for item in self.__inventory:
+            return_string += f'  {item.description}\n'
+        return_string += 'Treasure Found:\n'
+        for treasure in self.treasure_found:
+            return_string += f'  {treasure}'
+        return return_string
+        # return (f'Adventurer: {self.name}\n'
+        #         f'Hit Points: {self.hit_points}\n'
+        #         f'Inventory: {self.inventory}\n'
+        #         f'Treasure Found: {self.treasure_found}')
 
     @property
     def name(self):
@@ -43,8 +51,7 @@ class Adventurer:
                 self.__add_health(item.hit_points)
                 self.__inventory.remove(item)
                 return item
-            else:
-                return False
+        return False
 
     def use_vision_potion(self):
         """
@@ -56,8 +63,7 @@ class Adventurer:
             if type(item) == VisionPotion:
                 self.__inventory.remove(item)
                 return item
-            else:
-                return False
+        return False
 
     def encounter_obstacle(self, obstacle):
         """

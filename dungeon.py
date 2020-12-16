@@ -138,9 +138,9 @@ class Dungeon():
                 line_string += build_wall(row)
             for room in row:
                 if room is not row[-1]:
-                    line_string += f'| {str(room)} '
+                    line_string += f'| {str(room)[0]} '
                 else:
-                    line_string += f'| {str(room)} |\n'
+                    line_string += f'| {str(room)[0]} |\n'
             line_string += build_wall(row)
         return line_string
 
@@ -245,50 +245,51 @@ class Dungeon():
           and its surrounding rooms.
         :return: Dictionary
         """
+        map_string = ''
         dict_map = {}
-        #Room - NW
+        # Room - NW
         if self.check_room_exists(self.__adventurer_pos[0]-1,self.__adventurer_pos[1]-1):
-            dict_map["NorthWest Location:"] = str(self.__maze[self.__adventurer_pos[0]-1][self.__adventurer_pos[1]-1])
+            dict_map["NorthWest Location:"] = str(self.__maze[self.__adventurer_pos[0]-1][self.__adventurer_pos[1]-1])[2:]
         else:
-                dict_map["NorthWest Location:"] = "No room"
-        #Room - N
+            dict_map["NorthWest Location:"] = "No room"
+        # Room - N
         if self.check_room_exists(self.__adventurer_pos[0]-1,self.__adventurer_pos[1]):
-            dict_map["North Location:"] = str(self.__maze[self.__adventurer_pos[0]-1][self.__adventurer_pos[1]])
+            dict_map["North Location:"] = str(self.__maze[self.__adventurer_pos[0]-1][self.__adventurer_pos[1]])[2:]
         else:
             dict_map["North Location:"] = "No room"
-        #Room - NE
+        # Room - NE
         if self.check_room_exists(self.__adventurer_pos[0]-1,self.__adventurer_pos[1]+1):
-            dict_map["NorthEast Location:"] = str(self.__maze[self.__adventurer_pos[0]-1][self.__adventurer_pos[1]+1])
+            dict_map["NorthEast Location:"] = str(self.__maze[self.__adventurer_pos[0]-1][self.__adventurer_pos[1]+1])[2:]
         else:
             dict_map["NorthEast Location:"] = "No room"
-        #Room - W
+        # Room - W
         if self.check_room_exists(self.__adventurer_pos[0],self.__adventurer_pos[1]-1):
-            dict_map["West Location:"] = str(self.__maze[self.__adventurer_pos[0]][self.__adventurer_pos[1]-1])
+            dict_map["West Location:"] = str(self.__maze[self.__adventurer_pos[0]][self.__adventurer_pos[1]-1])[2:]
         else:
             dict_map["West Location:"] = "No room"
-        #Room - C
+        # Room - C
         if self.check_room_exists(self.__adventurer_pos[0],self.__adventurer_pos[1]):
-            dict_map["Current Location:"] = str(self.__maze[self.__adventurer_pos[0]][self.__adventurer_pos[1]])
+            dict_map["Current Location:"] = str(self.__maze[self.__adventurer_pos[0]][self.__adventurer_pos[1]])[2:]
         else:
             dict_map["Current Location:"] = "No room"
-        #Room - E
+        # Room - E
         if self.check_room_exists(self.__adventurer_pos[0],self.__adventurer_pos[1]+1):
-            dict_map["East Location:"] = str(self.__maze[self.__adventurer_pos[0]][self.__adventurer_pos[1]+1])
+            dict_map["East Location:"] = str(self.__maze[self.__adventurer_pos[0]][self.__adventurer_pos[1]+1])[2:]
         else:
             dict_map["East Location:"] = "No room"
-        #Room - SW
+        # Room - SW
         if self.check_room_exists(self.__adventurer_pos[0]+1,self.__adventurer_pos[1]-1):
-            dict_map["SouthhWest Location:"] = str(self.__maze[self.__adventurer_pos[0]+1][self.__adventurer_pos[1]-1])
+            dict_map["SouthhWest Location:"] = str(self.__maze[self.__adventurer_pos[0]+1][self.__adventurer_pos[1]-1])[2:]
         else:
             dict_map["SouthWest Location:"] = "No room"
-        #Room - S
+        # Room - S
         if self.check_room_exists(self.__adventurer_pos[0]+1,self.__adventurer_pos[1]):
-            dict_map["South Location:"] = str(self.__maze[self.__adventurer_pos[0]+1][self.__adventurer_pos[1]])
+            dict_map["South Location:"] = str(self.__maze[self.__adventurer_pos[0]+1][self.__adventurer_pos[1]])[2:]
         else:
             dict_map["South Location:"] = "No room"
-        #Room - SE
+        # Room - SE
         if self.check_room_exists(self.__adventurer_pos[0]+1,self.__adventurer_pos[1]+1):
-            dict_map["SouthEast Location:"] = str(self.__maze[self.__adventurer_pos[0]+1][self.__adventurer_pos[1]+1])
+            dict_map["SouthEast Location:"] = str(self.__maze[self.__adventurer_pos[0]+1][self.__adventurer_pos[1]+1])[2:]
         else:
             dict_map["SouthEast Location:"] = "No room"
         return dict_map
