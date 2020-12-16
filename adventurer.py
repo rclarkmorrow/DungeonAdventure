@@ -1,15 +1,18 @@
+from healing_potion import HealingPotion
+from vision_potion import VisionPotion
+
 class Adventurer:
     def __init__(self, name, hit_points):
         self.__name = name
         self.__hit_points = hit_points
-        self.__treasures_found = []
         self.__inventory = []
+        self.__treasure_found = []
 
     def __str__(self):
         return (f'Adventurer: {self.name}\n'
                 f'Hit Points: {self.hit_points}\n'
-                f'Treasures Found: {self.treasures_found}\n'
-                f'Inventory: {self.inventory}')
+                f'Inventory: {self.inventory}\n'
+                f'Treasure Found: {self.treasure_found}')
 
     @property
     def name(self):
@@ -20,31 +23,41 @@ class Adventurer:
         return self.__hit_points
 
     @property
-    def treasures_found(self):
-        return self.__treasures_found
-
-    @property
     def inventory(self):
         return self.__inventory
 
-    def add_item(self, item):
-        """ Adds vision potion to adventurer's utility belt """
-        self.__inventory.append(item)
+    @property
+    def treasure_found(self):
+        return self.__treasure_found
 
-    def remove_item(self, item):
-        """ Removes vision potion from adventurer's utility belt """
-        if item in self.__inventory:
-            self.__inventory.remove(item)
+    def use_healing_potion(self):
+        """
+          This method is called when the adventurer uses a
+          healing potion. It grabs the first available healing
+          potion and adds it to the adventurer's hit point total
+          and then removes it from inventory or returns false if
+          there are none.
+        """
+        for item in self.__inventory:
+            if type(item) == HealingPotion:
+                self.__add_health(item.hit_points)
+                self.__inventory.remove(item)
+                return item
+            else:
+                return False
 
-    def use_healing_potion(self, potion):
+    def use_vision_potion(self):
         """
-          This method is called when the adventurer encounters a
-          healing potion. For now it only adds HP value of the potion
-          to the adventurer, but it is a separate method so that we can
-          add other logic (such as adventurer inventory) later if we want.
+          This method is called when the adventurer uses a
+          vision potion. It removes the first vision potion
+          from inventory or returns false if there are none.
         """
-        self.__add_health(potion.hit_points)
-        self.remove_item(potion)
+        for item in self.__inventory:
+            if type(item) == VisionPotion:
+                self.__inventory.remove(item)
+                return item
+            else:
+                return False
 
     def encounter_obstacle(self, obstacle):
         """
@@ -57,12 +70,18 @@ class Adventurer:
 
     def find_treasure(self, treasure):
         """ Method adds a pillar to adventurer's found pillars list. """
-        self.__treasires_found.append(treasure)
+        self.__treasure_found.append(treasure)
+
+    def add_item(self, item):
+        self.__inventory.append(item)
+
+    def remove_item(self, item):
+        self.__inventory.remove(item)
 
     def __add_health(self, number):
         """ Adds specified value to adventurer's hit points. """
         self.__hit_points += number
 
     def __remove_health(self, number):
-        """ Removes specified value from adventurer's hit points. """
+        """ Remvoes specified value from adventurer's hit points. """
         self.__hit_points -= number

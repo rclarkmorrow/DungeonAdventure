@@ -1,6 +1,7 @@
 from random import choice
 
 from healing_potion import HealingPotion
+from vision_potion import VisionPotion
 from obstacle import Obstacle
 
 # Configuration
@@ -23,6 +24,10 @@ class RoomFeatureFactory:
     @staticmethod
     def create_healing_potion(hit_points=HEALING_POTION):
         return HealingPotion(hit_points)
+
+    @staticmethod
+    def create_vision_potion():
+        return VisionPotion()
 
     @staticmethod
     def create_obstacle(hit_points=OBSTACLE_DAMAGE):

@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class RoomFeature(ABC):
     """
        Abstract base class for an item, should not be
@@ -22,11 +23,13 @@ class RoomFeature(ABC):
 
     @property
     @abstractmethod
-    def effect(self):
+    def description(self):
         pass
 
-    def __str__(self):
-        return
+    @property
+    @abstractmethod
+    def effect(self):
+        pass
 
     @classmethod
     def __subclasshook__(cls, subclass):

@@ -1,3 +1,8 @@
+from obstacle import Obstacle
+from vision_potion import VisionPotion
+from healing_potion import HealingPotion
+
+
 class Room:
 
     def __init__(self):
@@ -5,38 +10,71 @@ class Room:
         Abstract base class for a room, should not be
         used for a concrete object.
         """
-        self.features = []
-        self.items = []
-        self.obstacles = []
-        self.__pillar = None  # A I P E
-        self.__entrance = False
-        self.__exit = False
-        self.__impassable = False
+        self.__features = []
+        self.__treasure = None  # A I P E
+        self.__is_entrance = False
+        self.__is_exit = False
+        self.__is_impassable = False
         self.__visited = False
 
     def __str__(self):
         """
         Returns string representation of the current room and features
         """
-        print("* _ *" + "\n" + "|")
-        if len(self.__features)>1:
-            print(" M ")
-        elif len(self.items)>1:
-            print(" M ")
-        elif HealthPotion() in self.items:
-            print(" H ")
-        elif VisionPotion() in self.items:
-            print(" V ")
-        elif self.obstacles:
-            print(" O ")
-        elif self.pillars is not None:
-            print(str(self.__pillar))
+        if self.__is_entrance:
+            return "S"
+        elif self.__is_exit:
+            return "X"
+        elif self.__is_impassable:
+            return "B"
+        elif self.__treasure:
+            return str(self.__treasure[0])
+        elif len(self.__features) > 1:
+            return "M"
+        elif len(self.__features):
+            if type(self.__features[0]) == HealingPotion:
+                return "H"
+            elif type(self.__features[0]) == VisionPotion:
+                return "V"
+            elif type(self.__features[0]) == Obstacle:
+                return "O"
         else:
-            print("  " + "|" + "\n" + "* _ *")
+            return " "
+
+        # return_string = ''
+        # return_string += ("* — *" + "\n" + "|")
+        # if len(self.__features) > 1:
+        #     return_string += (" M ")
+        # elif len(self.__features):
+        #     print(type(self.features[0]))
+        #     # if type(self.__features[0]) == HealingPotion
+        #     #     return_string += (" H ")
+        #     if self.__features[0].name == "Vision Potion":
+        #         return_string += (" V ")
+        #     elif self.__features[0].category == "Obstacle":
+        #         return_string += (" O ")
+        # elif self.treasure is not None:
+        #     return_string += f" {(str(self.__treasure[0]))} "
+        # else:
+        #     return_string += ("   ")
+        # return_string += ("|" + "\n" + "* _ *\n")
+        # return return_string
 
     @property
     def can_enter(self):
-        return self.__impassable  # and not self.__visited
+        return not self.__is_impassable and not self.__visited
+
+    @property
+    def is_empty(self):
+        return not(self.__features or self.__treasure)
+
+    @property
+    def is_impassable(self):
+        return self.__is_impassable
+
+    @is_impassable.setter
+    def is_impassable(self, value: bool):
+        self.__is_impassable = value
 
     @property
     def visited(self):
@@ -48,40 +86,34 @@ class Room:
 
     @property
     def is_entrance(self):
-        return self.__entrance
+        return self.__is_entrance
 
     @is_entrance.setter
     def is_entrance(self, value: bool):
-        self.__entrance = value
+        self.__is_entrance = value
 
     @property
     def is_exit(self):
-        return self.__exit
+        return self.__is_exit
 
     @is_exit.setter
     def is_exit(self, value: bool):
-        self.__exit = value
+        self.__is_exit = value
 
     @property
-    def g_items(self, item):
-        return self.items.pop(item)
+    def features(self):
+        return self.__features
 
-    @add_items.setter
-    def add_items(self, item):
-        self.items.append(item)
+    def add_feature(self, feature):
+        self.__features.append(feature)
 
-    @property
-    def g_features(self, feature):
-        return self.features.pop(feature)
-
-    @add_features.setter
-    def add_features(self, features):
-        self.features.append(features)
+    def remove_feature(self, feature):
+        self.__features.remove(feature)
 
     @property
-    def g_obstacles(self, obstacle):
-        return self.obstacles.pop(obstacle)
+    def treasure(self):
+        return self.__treasure
 
-    @add_features.setter
-    def add_obstacles(self, obstacles):
-        self.obstacles.append(obstacles)
+    @treasure.setter
+    def treasure(self, treasure_string):
+        self.__treasure = treasure_string
