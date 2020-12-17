@@ -22,9 +22,9 @@ class Room:
         Returns string representation of the current room and features
         """
         if self.__is_entrance:
-            return "S: Start"
+            return "i: Entrance"
         elif self.__is_exit:
-            return "X: Exit"
+            return "O: Exit"
         elif self.__is_impassable:
             return "B: No Room (Blocked)"
         elif self.__treasure:
@@ -37,83 +37,119 @@ class Room:
             elif type(self.__features[0]) == VisionPotion:
                 return "V: Vision Potion"
             elif type(self.__features[0]) == Obstacle:
-                return f"O: Obstacle ({self.__features[0].name})"
+                return f"X: Obstacle ({self.__features[0].name})"
         else:
             return " : Empty Room"
 
-        # return_string = ''
-        # return_string += ("* — *" + "\n" + "|")
-        # if len(self.__features) > 1:
-        #     return_string += (" M ")
-        # elif len(self.__features):
-        #     print(type(self.features[0]))
-        #     # if type(self.__features[0]) == HealingPotion
-        #     #     return_string += (" H ")
-        #     if self.__features[0].name == "Vision Potion":
-        #         return_string += (" V ")
-        #     elif self.__features[0].category == "Obstacle":
-        #         return_string += (" O ")
-        # elif self.treasure is not None:
-        #     return_string += f" {(str(self.__treasure[0]))} "
-        # else:
-        #     return_string += ("   ")
-        # return_string += ("|" + "\n" + "* _ *\n")
-        # return return_string
-
     @property
     def can_enter(self):
+        """
+          Returns a boolean indicating whether the room is not
+          impassable and has not been visited by traversal.
+        """
         return not self.__is_impassable and not self.__visited
 
     @property
     def is_empty(self):
+        """
+          Returns a boolean indicating whether the room is
+          empty.
+        """
         return not(self.__features or self.__treasure)
 
     @property
     def is_impassable(self):
+        """
+          Returns a boolean indicating whether the room is
+          impassable.
+        """
         return self.__is_impassable
 
     @is_impassable.setter
     def is_impassable(self, value: bool):
+        """
+          Sets a boolean indicating whether the room
+          is impassable.
+        """
         self.__is_impassable = value
 
     @property
     def visited(self):
+        """
+          Returns a boolean indicating whether the
+          room has been visited by traversal.
+        """
         return self.__visited
 
     @visited.setter
     def visited(self, value: bool):
+        """
+          Sets a boolean indicating whether the
+          room has been visited by traversal.
+        """
         self.__visited = value
 
     @property
     def is_entrance(self):
+        """
+          Returns a boolean indicating whether the
+          room is the entrance.
+        """
         return self.__is_entrance
 
     @is_entrance.setter
     def is_entrance(self, value: bool):
+        """
+          Sets a boolean indicating whether the
+          room is the entrance.
+        """
         self.__is_entrance = value
 
     @property
     def is_exit(self):
+        """
+          Returns a boolean indicating whether the
+          room is the exit.
+        """
         return self.__is_exit
 
     @is_exit.setter
     def is_exit(self, value: bool):
+        """
+          Sets a boolean indicating whether the
+          room is the exit.
+        """
         self.__is_exit = value
 
     @property
     def features(self):
+        """
+          Returns the list of room features.
+        """
         return self.__features
 
     def add_feature(self, feature):
+        """
+          Adds a feature to the list of features.
+        """
         self.__features.append(feature)
 
     def remove_feature(self, feature):
+        """
+          Removes a feature form the list of features.
+        """
         self.__features.remove(feature)
 
     @property
     def treasure(self):
+        """
+          Removes the room's treasure.
+        """
         return self.__treasure
 
     @treasure.setter
     def treasure(self, treasure_string):
+        """
+          Sets the room's treasure.
+        """
         self.__treasure = treasure_string
