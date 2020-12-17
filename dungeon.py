@@ -287,7 +287,6 @@ class Dungeon():
           and its surrounding rooms.
         :return: Dictionary
         """
-        map_string = ''
         dict_map = {}
         r, c = self.__adventurer_pos
         # Room - NW
