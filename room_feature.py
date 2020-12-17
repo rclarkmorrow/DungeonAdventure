@@ -13,12 +13,15 @@ class RoomFeature(ABC):
     @property
     def name(self):
         """
-           Returns the shapes name as a property.
+           Returns the feature name as a property.
         """
         return self.__name
 
     @property
     def category(self):
+        """
+          Returns the feature category as a property.
+        """
         return self.__category
 
     @property
