@@ -45,6 +45,7 @@ class DungeonAdventureController:
                              .create_adventurer(adventurer_name))
         self.__current_room = None
         # print(self.__dungeon)
+        print("adv_map: \n", self.__dungeon.adv_map())
 
     def user_input(self, user_input):
         """
@@ -207,6 +208,6 @@ class DungeonAdventureController:
             room_string += ('Oh noes, you have died! :\'(\n\n'
                             f'{str(self.__dungeon)}')
             return room_string, False
-
+        print(self.__dungeon.adv_map())
         play = True
         return room_string, play

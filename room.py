@@ -16,6 +16,8 @@ class Room:
         self.__is_exit = False
         self.__is_impassable = False
         self.__visited = False
+        self.__explored = False
+        self.__current_pos = False
 
     def __str__(self):
         """
@@ -88,6 +90,38 @@ class Room:
           room has been visited by traversal.
         """
         self.__visited = value
+
+    @property
+    def explored(self):
+        """
+          Returns a boolean indicating whether the
+          room has been visited by adventurer.
+        """
+        return self.__explored
+
+    @explored.setter
+    def explored(self, value: bool):
+        """
+          Sets a boolean indicating whether the
+          room has been visited by adventurer.
+        """
+        self.__explored = value
+
+    @property
+    def current_pos(self):
+        """
+          Returns a boolean indicating whether the
+          adventurer is here.
+        """
+        return self.__current_pos
+
+    @current_pos.setter
+    def current_pos(self, value: bool):
+        """
+          Sets a boolean indicating whether the
+          adventurer is here.
+        """
+        self.__current_pos = value
 
     @property
     def is_entrance(self):

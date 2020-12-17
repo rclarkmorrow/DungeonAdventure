@@ -56,6 +56,8 @@ class Dungeon():
         """
         self.__entrance_pos = self.pick_random_empty_room()
         self.__maze[self.__entrance_pos[0]][self.__entrance_pos[1]].is_entrance = True
+        self.__maze[self.__entrance_pos[0]][self.__entrance_pos[1]].explored = True
+        self.__maze[self.__entrance_pos[0]][self.__entrance_pos[1]].current_pos = True
         # print(f"entrance: {self.__entrance_pos}")
 
     def set_exit(self):
@@ -145,6 +147,44 @@ class Dungeon():
             line_string += build_wall(row)
         return line_string
 
+    def adv_map(self):
+        """
+          Returns the string representation of the maze (as a grid)
+        with respect to the progress of the adventurer.
+        :return: String
+        """
+        line_string = '\n'
+        for row in self.__maze:
+
+            def build_wall(row):
+                wall_string = ''
+                for room in row:
+                    if room is not row[-1]:
+                        wall_string += '* _ '
+                    else:
+                        wall_string += '* _ *\n'
+                return wall_string
+            if row is self.__maze[0]:
+                line_string += build_wall(row)
+            for room in row:
+                if room is not row[-1]:
+                    if room.current_pos:
+                        line_string += '| C '
+                    elif room.explored:
+                        line_string += f'| {str(room)[0]} '
+                    else:
+                        line_string += '| ? '
+                else:
+                    if room.current_pos:
+                        line_string += '| C |\n'
+                    elif room.explored:
+                        line_string += f'| {str(room)[0]} |\n'
+                    else:
+                        line_string += '| ? |\n'
+            line_string += build_wall(row)
+        return line_string
+
+
     def bfs_reachable_exit_rooms(self, row, col):
         """
           Performs a BFS of the maze and checks exit is reachable from entrance
@@ -191,7 +231,10 @@ class Dungeon():
         :return: Updated(current) position of the adventurer after the move.
         """
         if self.check_room(self.__adventurer_pos[0]+r_data, self.__adventurer_pos[1]+c_data):
+            self.__maze[self.__adventurer_pos[0]][self.__adventurer_pos[1]].current_pos = False
             self.__adventurer_pos = (self.__adventurer_pos[0]+r_data, self.__adventurer_pos[1]+c_data)
+            self.__maze[self.__adventurer_pos[0]][self.__adventurer_pos[1]].current_pos = True
+            self.__maze[self.__adventurer_pos[0]][self.__adventurer_pos[1]].explored = True
             return self.__maze[self.__adventurer_pos[0]][self.__adventurer_pos[1]]
         else:
             return False
@@ -205,7 +248,14 @@ class Dungeon():
         :param col: Int index
         :return: Bool
         """
-        return self.check_room_exists(row,col) and not self.__maze[row][col].is_impassable
+        if self.check_room_exists(row,col):
+            if not self.__maze[row][col].is_impassable:
+                return True
+            else:
+                self.__maze[row][col].explored = True
+                return False
+        else:
+            return False
 
     def display_curr_room(self):
         """
