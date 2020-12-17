@@ -1,15 +1,23 @@
 from healing_potion import HealingPotion
 from vision_potion import VisionPotion
 
+
 class Adventurer:
     def __init__(self, name, hit_points):
+        """
+          Inits adventurer with name and hp arguments.
+        """
         self.__name = name
         self.__hit_points = hit_points
         self.__inventory = []
         self.__treasure_found = []
 
     def __str__(self):
-        return_string =  f'Adventurer: {self.name}\nHit Points: {self.hit_points}\n'
+        """
+          Returns a string representation of the adventurer.
+        """
+        return_string = (f'Adventurer: {self.name}\n'
+                         f'Hit Points: {self.hit_points}\n')
         return_string += 'Inventory:\n'
         for item in self.__inventory:
             return_string += f'  {item.description}\n'
@@ -17,25 +25,33 @@ class Adventurer:
         for treasure in self.treasure_found:
             return_string += f'  {treasure}'
         return return_string
-        # return (f'Adventurer: {self.name}\n'
-        #         f'Hit Points: {self.hit_points}\n'
-        #         f'Inventory: {self.inventory}\n'
-        #         f'Treasure Found: {self.treasure_found}')
 
     @property
     def name(self):
+        """
+          Returns adventurer name.
+        """
         return self.__name
 
     @property
     def hit_points(self):
+        """
+          Returns adventurer hit points.
+        """
         return self.__hit_points
 
     @property
     def inventory(self):
+        """
+          Returns adventurer inventory.
+        """
         return self.__inventory
 
     @property
     def treasure_found(self):
+        """
+          Returns adventurer treasures found.
+        """
         return self.__treasure_found
 
     def use_healing_potion(self):
@@ -75,19 +91,31 @@ class Adventurer:
         self.__remove_health(obstacle.hit_points)
 
     def find_treasure(self, treasure):
-        """ Method adds a pillar to adventurer's found pillars list. """
+        """
+          Adds a treasure to adventurer's found treasures list.
+        """
         self.__treasure_found.append(treasure)
 
     def add_item(self, item):
+        """
+          Adds an item to the adventurer's inventory.
+        """
         self.__inventory.append(item)
 
     def remove_item(self, item):
+        """
+          Removes an item from the adventurer's inventory.
+        """
         self.__inventory.remove(item)
 
     def __add_health(self, number):
-        """ Adds specified value to adventurer's hit points. """
+        """
+          Adds specified value to adventurer's hit points.
+        """
         self.__hit_points += number
 
     def __remove_health(self, number):
-        """ Remvoes specified value from adventurer's hit points. """
+        """
+          Remvoes specified value from adventurer's hit points.
+        """
         self.__hit_points -= number
