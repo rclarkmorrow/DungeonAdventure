@@ -8,11 +8,6 @@ class VisionPotion(RoomFeature):
         Vision potion class creates a subclass of room feature.
         """
         super().__init__(f'Vision Potion', 'Item')
-        # self.__hit_points = hit_points
-
-    # @property
-    # def hit_points(self):
-    #     return self.__hit_points
 
     @property
     def description(self):
