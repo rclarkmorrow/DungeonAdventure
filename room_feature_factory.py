@@ -5,8 +5,8 @@ from vision_potion import VisionPotion
 from obstacle import Obstacle
 
 # Configuration
-HEALING_POTION = 20
-OBSTACLE_DAMAGE = 50
+HEALING_POTION = 20   # 5 - 15 per rubric
+OBSTACLE_DAMAGE = 50  # 1 - 20 per rubric
 OBSTACLES = {
   'Pit': 'You fall into a pit filled with spikes.',
 
