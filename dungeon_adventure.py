@@ -1,4 +1,4 @@
-from game_controller import GameController
+from dungeon_adventure_controller import DungeonAdventureController
 
 WELCOME = ('Welcome to the Dungeon, it\'s got fun and games.')
 INTRO = ('\nYou descend a staircase into the dungeon of objects.'
@@ -7,7 +7,7 @@ INTRO = ('\nYou descend a staircase into the dungeon of objects.'
          ' and reach the exit.\nGOOD LUCK!')
 
 
-class GameInterface:
+class DungeonAdventure:
     @staticmethod
     def init_game(play_game: bool):
         if play_game:
@@ -16,13 +16,13 @@ class GameInterface:
                                         ' press enter for a default name'
                                         ' >>> '))
 
-            GameInterface.__play_game(adventurer_name)
+            DungeonAdventure.__play_game(adventurer_name)
         else:
             print('Thank you for playing. See you next time!')
 
     @staticmethod
     def __play_game(adventurer_name):
-        game = GameController(adventurer_name)
+        game = DungeonAdventureController(adventurer_name)
         play = True
         print(INTRO)
         while play:
@@ -35,10 +35,10 @@ class GameInterface:
         user_input = (str(input('\nEnter \'y\' or \'yes\' to play again >>> '))
                       .lower())
         if user_input == 'y' or user_input == 'yes':
-            GameInterface.init_game(True)
+            DungeonAdventure.init_game(True)
         else:
-            GameInterface.init_game(False)
+            DungeonAdventure.init_game(False)
 
 
 if __name__ == '__main__':
-    GameInterface.init_game(True)
+    DungeonAdventure.init_game(True)

@@ -38,7 +38,7 @@ Game commands:
 # Add a version for cheat enabled, toggle
 
 
-class GameController:
+class DungeonAdventureController:
     def __init__(self, adventurer_name):
         self.__dungeon = Dungeon()
         self.__adventurer = (AdventurerFactory
@@ -113,9 +113,6 @@ class GameController:
                     return map_string, True
                 else:
                     return 'You do not have any vision potions', True
-                # for key,value in d.items():
-                #     print(key, ":\n", value)
-
             # Game commands
             elif user_input == 'h' or user_input == 'help':
                 return INPUT_HELP, True
@@ -170,7 +167,7 @@ class GameController:
                 room_string += ('You are satisfied that you have collected'
                                 ' all the treasure to be found.'
                                 '\nCongratulations, you leave the dungeon'
-                                ' a winner!')
+                                f' a winner!\n\n{str(self.__dungeon)}')
             else:
                 missing_treasure = ''
                 for treasure in ["ABSTRACTION", "ENCAPSULATION",
@@ -193,8 +190,12 @@ class GameController:
                 self.__adventurer.add_item(item)
                 room_string += f'You have picked up a {item.description}\n'
             elif self.__current_room.features[index].category == 'Obstacle':
-                self.__adventurer.encounter_obstacle(self.__current_room.features[index])
-                room_string += f'{self.__current_room.features[index].effect}\n'
+                self.__adventurer.encounter_obstacle(
+                    self.__current_room.features[index]
+                )
+                room_string += (
+                    f'{self.__current_room.features[index].effect}\n'
+                )
                 index += 1
         # When the room has a treasure.
         if self.__current_room.treasure:
@@ -203,7 +204,8 @@ class GameController:
                             f' {self.__current_room.treasure}!\n')
             self.__current_room.treasure = None
         if self.__adventurer.hit_points < 1:
-            room_string += 'Oh noes, you have died! :\'('
+            room_string += ('Oh noes, you have died! :\'(\n\n'
+                            f'{str(self.__dungeon)}')
             return room_string, False
 
         play = True
