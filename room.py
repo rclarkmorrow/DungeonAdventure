@@ -28,7 +28,7 @@ class Room:
         elif self.__is_impassable:
             return "B: No Room (Blocked)"
         elif self.__treasure:
-            return str(self.__treasure[0]) +": "+ str(self.__treasure)
+            return str(self.__treasure[0]) + ": " + str(self.__treasure)
         elif len(self.__features) > 1:
             return "M: Multiple Features"
         elif len(self.__features):
