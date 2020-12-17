@@ -8,8 +8,17 @@ INTRO = ('\nYou descend a staircase into the dungeon of objects.'
 
 
 class DungeonAdventure:
+    """
+      This class is the main interface for the game. In an MVC model this is
+      the view. It gets user input from the user, passes it to the  Dungeon
+      Adventure Controller and returns responses to the user.
+    """
     @staticmethod
     def init_game(play_game: bool):
+        """
+          Initializes a game with an adventurer name if provided by the user.
+          The controller randomly selects a default name if left blank.
+        """
         if play_game:
             print(WELCOME)
             adventurer_name = str(input('\nEnter your adventurer\'s name or'
@@ -22,6 +31,11 @@ class DungeonAdventure:
 
     @staticmethod
     def __play_game(adventurer_name):
+        """
+          This is the main game loop. It takes input, and prints
+          responses to the console. At the end it asks whether the
+          user would like to play again.
+        """
         game = DungeonAdventureController(adventurer_name)
         play = True
         print(INTRO)
@@ -30,8 +44,6 @@ class DungeonAdventure:
                                    ' for help) >>> '))
             result, play = game.user_input(user_input)
             print(f'\n{result}')
-            # result, play = game.user_input(user_input)
-            # print(result)
         user_input = (str(input('\nEnter \'y\' or \'yes\' to play again >>> '))
                       .lower())
         if user_input == 'y' or user_input == 'yes':
