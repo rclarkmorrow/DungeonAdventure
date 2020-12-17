@@ -38,7 +38,7 @@ class DungeonAdventure:
         """
         game = DungeonAdventureController(adventurer_name)
         play = True
-        print(INTRO)
+        print(f'{INTRO}\n{game.adventurer_map}')
         while play:
             user_input = str(input('\nEnter your command (\'h\' or \'help\''
                                    ' for help) >>> '))

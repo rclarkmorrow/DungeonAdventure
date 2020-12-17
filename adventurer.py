@@ -108,6 +108,12 @@ class Adventurer:
         """
         self.__inventory.remove(item)
 
+    def god_mode(self):
+        """
+          Adds 1,000 hit points to adventurer.
+        """
+        self.__add_health(1000)
+
     def __add_health(self, number):
         """
           Adds specified value to adventurer's hit points.

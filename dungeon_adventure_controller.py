@@ -12,12 +12,15 @@ VALID_INPUT = [
     'p', 'potion',  # use healing potion
     'v', 'vision',  # use vision potion
     'q', 'quit',  # exit the dungeon
-    # Cheat Commands
     'm', 'map',  # reveal the dungeon map
-    't', 'treasure'  # add all treasure
+    # Cheat Commands
+    'c', 'cheat',  # toggle cheat mode
+    't', 'treasure',  # add all treasure
+    'g', 'god',  # add 1,000 hit points
+    'u', 'unveil'  # show all rooms
 ]
 
-CHEAT = True
+CHEAT = False
 
 INPUT_HELP = """GAME HELP
 
@@ -29,13 +32,17 @@ Movement commands:
 Status commands:
   i, info to show adventurer status.
   r, room to show the current room.
-  m, show map
+  m, show adventurer map.
 Use item commands:
   p, potion to use a healing potion.
   v, vision to use a vision potion.
 Game commands:
-  q, quit to leave the dungeon."""
-# Add a version for cheat enabled, toggle
+  q, quit to leave the dungeon.
+Cheat commands (when enabled):
+  c, cheat to toggle cheat mode.
+  t, treasure to add all treasures.
+  g, god to add 1,000 hit points.
+  u, unveil to see all rooms."""
 
 
 class DungeonAdventureController:
@@ -44,8 +51,14 @@ class DungeonAdventureController:
         self.__adventurer = (AdventurerFactory
                              .create_adventurer(adventurer_name))
         self.__current_room = None
-        # print(self.__dungeon)
-        print("adv_map: \n", self.__dungeon.adv_map())
+        self.__cheat = CHEAT
+
+    @property
+    def adventurer_map(self):
+        """
+          Returns the adventurer map.
+        """
+        return str(self.__dungeon.adv_map())
 
     def user_input(self, user_input):
         """
@@ -94,6 +107,8 @@ class DungeonAdventureController:
             elif user_input == 'r' or user_input == 'room':
                 # Show room
                 return self.__dungeon.display_curr_room(), True
+            elif user_input == 'm' or user_input == 'map':
+                return self.get_map()
 
             # Use item commands
             elif user_input == 'p' or user_input == 'potion':
@@ -102,7 +117,6 @@ class DungeonAdventureController:
                     return result.effect, True
                 else:
                     return 'You do not have any healing potions', True
-
             elif user_input == 'v' or user_input == 'vision':
                 # Do vision
                 result = self.__adventurer.use_vision_potion()
@@ -121,24 +135,34 @@ class DungeonAdventureController:
                 # Exit the dungeon
                 return 'Exiting the dungeon', False
             # Cheat commands
-            elif user_input == 'm' or user_input == 'map':
-                if CHEAT:
-                    return self.__dungeon, True
+            elif user_input == 'c' or user_input == 'cheat':
+                self.__cheat = not self.__cheat
+                if self.__cheat:
+                    return 'You have enabled cheat mode.', True
                 else:
-                    # return self.__dungeon, not cheat
-                    return f'{user_input} is not a valid command.', True
+                    return 'You have disabled cheat mode', True
             elif user_input == 't' or user_input == 'treasure':
-                if CHEAT:
+                if self.__cheat:
                     for treasure in ["ABSTRACTION", "ENCAPSULATION",
                                      "INHERITANCE", "POLYMORPHISM"]:
                         self.__adventurer.find_treasure(treasure)
                     return 'You have cheated and added all treasures.', True
                 else:
-                    return f'{user_input} is not a valid command.', True
+                    return f'{user_input} is not enabled.', True
+            elif user_input == 'g' or user_input == 'god':
+                if self.__cheat:
+                    self.__adventurer.god_mode()
+                    return 'You have cheated and added 1,000 hit points.', True
+                else:
+                    return f'{user_input} is not enabled.', True
+            elif user_input == 'u' or user_input == 'unveil':
+                if self.__cheat:
+                    return str(self.__dungeon), True
+                else:
+                    return f'{user_input} is not enabled.', True
             # Shouldn't get here
             else:
                 return 'Something went wrong', True
-            # Cheat commands
         else:
             return f'{user_input} is not a valid command.', True
 
@@ -150,6 +174,7 @@ class DungeonAdventureController:
           in the UI.
         """
         room_string = ''
+        room_string += f'{self.adventurer_map}\n'
         # If room is empty.
         if (not self.__current_room.features and
                 not self.__current_room.treasure and
@@ -208,6 +233,5 @@ class DungeonAdventureController:
             room_string += ('Oh noes, you have died! :\'(\n\n'
                             f'{str(self.__dungeon)}')
             return room_string, False
-        print(self.__dungeon.adv_map())
         play = True
         return room_string, play
