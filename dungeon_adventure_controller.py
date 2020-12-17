@@ -108,7 +108,7 @@ class DungeonAdventureController:
                 # Show room
                 return self.__dungeon.display_curr_room(), True
             elif user_input == 'm' or user_input == 'map':
-                return self.get_map()
+                return self.adventurer_map, True
 
             # Use item commands
             elif user_input == 'p' or user_input == 'potion':
