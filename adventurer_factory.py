@@ -1,4 +1,5 @@
 from random import randint, choice
+from factory import Factory
 from adventurer import Adventurer
 
 # Configuration
@@ -12,26 +13,14 @@ DEFAULT_NAMES = [
 ]
 
 
-# Factory
-class AdventurerFactory:
-    @staticmethod
-    def to_integer(number):
-        if int(str(number)):
-            return int(str(number))
-        else:
-            raise ValueError('value must be an integer or convertable to'
-                             ' an integer')
-
-    @staticmethod
-    def is_string(some_input):
-        if isinstance(some_input, str):
-            return some_input
-        else:
-            raise ValueError('value must be a string')
-
+class AdventurerFactory(Factory):
     @staticmethod
     def create_adventurer(name=None,
                           hit_points=randint(MIN_HP, MAX_HP)):
+        """
+          Creates an and returns an adventurer object.
+          :: takes an adventurer name and a HP range as arguments.
+        """
         if not name:
             name = choice(DEFAULT_NAMES)
         return Adventurer(AdventurerFactory.is_string(name),
