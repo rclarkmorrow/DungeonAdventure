@@ -88,7 +88,6 @@ class Dungeon():
             rand_pos = self.pick_random_room()
             if self.__maze[rand_pos[0]][rand_pos[1]].visited:
                 self.__maze[rand_pos[0]][rand_pos[1]].treasure = treasures[treasure_count]
-                # print(f"{treasures[treasure_count]} at: {rand_pos}")
                 treasure_count += 1
 
     def build_maze(self):
@@ -110,8 +109,10 @@ class Dungeon():
         self.set_exit()
         # Making some rooms impassable
         self.block_rooms()
-        # Check maze is traverse-able from entrance to exit and a list of rooms that can be reached.
-        reachable_exit_rooms = self.bfs_reachable_exit_rooms(self.__entrance_pos[0],self.__entrance_pos[1])
+        # Check maze is traverse-able from entrance to exit and a list of
+        # rooms that can be reached.
+        reachable_exit_rooms = self.bfs_reachable_exit_rooms(self.__entrance_pos[0],
+                                                             self.__entrance_pos[1])
         # print("traversable", reachable_exit_rooms)
         if not reachable_exit_rooms:  #exit is not reachable
             self.build_maze()
@@ -195,28 +196,11 @@ class Dungeon():
         else:
             return False
 
-    # def update_room(self):
-    #     curr_room = self.__maze[self.__adventurer_pos[0]][self.__adventurer_pos[1]]
-    #     temp = {}
-    #     if curr_room.get_treasure():
-    #         temp["treasure"] = curr_room.get_treasure
-    #         curr_room.set_treasure = False
-    #     if curr_room.healing_potion:
-    #         temp["healing_potion"] = curr_room.healing_potion
-    #         curr_room.healing_potion = False
-    #     if curr_room.vision_potion:
-    #         temp["vision_potion"] = curr_room.vision_potion
-    #     if curr_room.obstacle:
-    #         temp["obstacle"] = curr_room.obstacle
-    #     if curr_room.is_exit():
-    #         temp["exit"] = curr_room.is_exit()
-    #     return temp
-
     def check_room(self, row, col):
         """
-          Helper function to see room exists and can be entered by the adventurer.
-          Returns true if row,col is a valid room in the maze and if it can be entered.
-          (not blocked)
+          Helper function to see room exists and can be entered by the
+          adventurer. Returns true if row,col is a valid room in the maze
+          and if it can be entered. (not blocked)
         :param row: Int index
         :param col: Int index
         :return: Bool
