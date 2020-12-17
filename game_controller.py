@@ -29,11 +29,13 @@ Movement commands:
 Status commands:
   i, info to show adventurer status.
   r, room to show the current room.
+  m, show map
 Use item commands:
   p, potion to use a healing potion.
   v, vision to use a vision potion.
 Game commands:
   q, quit to leave the dungeon."""
+# Add a version for cheat enabled, toggle
 
 
 class GameController:
@@ -125,6 +127,7 @@ class GameController:
                 if CHEAT:
                     return self.__dungeon, True
                 else:
+                    # return self.__dungeon, not cheat
                     return f'{user_input} is not a valid command.', True
             elif user_input == 't' or user_input == 'treasure':
                 if CHEAT:
@@ -148,8 +151,6 @@ class GameController:
           returned to the interface to report what happened
           in the UI.
         """
-        # self.__current_room = room
-        # print(self.__current_room.features)
         room_string = ''
         # If room is empty.
         if (not self.__current_room.features and
@@ -188,14 +189,8 @@ class GameController:
         while index < len(self.__current_room.features):
             if self.__current_room.features[index].category == 'Item':
                 item = self.__current_room.features.pop(index)
-                # print('popped!')
-                # print(self.__current_room.features[index])
                 self.__adventurer.add_item(item)
-                # self.__adventurer.add_item(self.__current_room.features[index])
-                # print(f'Item: {item}')
                 room_string += f'You have picked up a {item.description}\n'
-                # room_string += f'You have picked up a {self.__current_room.features[index].description}\n'
-                # del(self.__current_room.features[index])
             elif self.__current_room.features[index].category == 'Obstacle':
                 self.__adventurer.encounter_obstacle(self.__current_room.features[index])
                 room_string += f'{self.__current_room.features[index].effect}\n'
@@ -209,7 +204,5 @@ class GameController:
             room_string += 'Oh noes, you have died! :\'('
             return room_string, False
 
-        # print("BEFORE RETURN")
         play = True
-        # print(room_string, True)
         return room_string, play
