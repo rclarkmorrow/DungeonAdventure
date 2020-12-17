@@ -71,9 +71,8 @@ class FactoryTests(unittest.TestCase):
                          healing_potion.effect)
 
         # obstacle = RoomFeatureFactory.create_obstacle()
-        # adventurer.encounter_obstace(obstacle)
         # potion = RoomFeatureFactory.create_healing_potion()
-        # adventurer.use_healing_potion(potion)
+
 
 
 if __name__ == '__main__':
