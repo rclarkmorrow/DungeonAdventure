@@ -20,8 +20,6 @@ VALID_INPUT = [
     'u', 'unveil'  # show all rooms
 ]
 
-CHEAT = False
-
 INPUT_HELP = """GAME HELP
 
 Movement commands:
@@ -51,7 +49,7 @@ class DungeonAdventureController:
         self.__adventurer = (AdventurerFactory
                              .create_adventurer(adventurer_name))
         self.__current_room = None
-        self.__cheat = CHEAT
+        self.__cheat = False
 
     @property
     def adventurer_map(self):
