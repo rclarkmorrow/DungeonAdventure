@@ -13,7 +13,7 @@ Hours Spent:
    We had weekly project meetings where we reviewed code, fixed bugs, refactored
    bits of the project, and did some pair (tri?) programming.
 
-   Sriba: Dungeon.py, dungeon_adventure.py, dungeon_adventure_controller.py, room.py
+   Sriba: Dungeon.py, move commands in dungeon_adventure_controller.py, room.py
 
    Huy: healing_potion.py, vision.py, obstacle.py, room.py, room_feature_factory.py, factory_test.py
 

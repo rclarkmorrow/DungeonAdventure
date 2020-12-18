@@ -1,5 +1,5 @@
-from random import choice
-
+from random import choice, randint
+from factory import Factory
 from healing_potion import HealingPotion
 from vision_potion import VisionPotion
 from obstacle import Obstacle
@@ -27,7 +27,7 @@ class RoomFeatureFactory:
           Creates an and returns an healing potion object.
           :: takes an HP range as arguments.
         """
-        return HealingPotion(RoomFeatureFactory.to_integer(heal_points))
+        return HealingPotion(Factory.to_integer(heal_points))
 
     @staticmethod
     def create_vision_potion():
@@ -43,6 +43,6 @@ class RoomFeatureFactory:
         :: takes an damage range as arguments.
         """
         name, effect = choice(list(OBSTACLES.items()))
-        return Obstacle(name, effect, RoomFeatureFactory.to_integer(damage_points))
+        return Obstacle(name, effect, Factory.to_integer(damage_points))
 
 
