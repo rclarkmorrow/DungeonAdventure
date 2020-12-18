@@ -194,6 +194,7 @@ class DungeonAdventureController:
                                 ' all the treasure to be found.'
                                 '\nCongratulations, you leave the dungeon'
                                 f' a winner!\n\n{str(self.__dungeon)}')
+                return room_string, False
             else:
                 missing_treasure = ''
                 for treasure in ["ABSTRACTION", "ENCAPSULATION",
