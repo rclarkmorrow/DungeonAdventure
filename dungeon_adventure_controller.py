@@ -229,11 +229,11 @@ class DungeonAdventureController:
                 not in self.__adventurer.treasure_found):
             self.__adventurer.find_treasure(self.__current_room.treasure)
             room_string += ('You have found treasure:'
-                        f' {self.__current_room.treasure}!\n')
+                            f' {self.__current_room.treasure}!\n')
             self.__current_room.treasure = None
         elif self.__current_room.treasure:
             room_string += ('You have already found treasure:'
-                        f' {self.__current_room.treasure}!\n')
+                            f' {self.__current_room.treasure}!\n')
             self.__current_room.treasure = None
 
         # When adventurer dies.

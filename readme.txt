@@ -9,6 +9,7 @@ Hours Spent:
    Rick 6 hours (Online Team Co-Op) , 5 Hours (Offline)
 
    *** Description ***
+   Run the program by running dungeon_adventure.py
 
    We had weekly project meetings where we reviewed code, fixed bugs, refactored
    bits of the project, and did pair (tri?) programming on all of the class modules.

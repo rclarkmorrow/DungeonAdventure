@@ -177,6 +177,7 @@ class Dungeon():
                     else:
                         border_string += '* * *\n'
                 return border_string
+
             def build_wall(row):
                 wall_string = ''
                 for room in row:
