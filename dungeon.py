@@ -130,6 +130,14 @@ class Dungeon():
         """
         line_string = ''
         for row in self.__maze:
+            def build_border(row):
+                border_string = ''
+                for room in row:
+                    if room is not row[-1]:
+                        border_string += '* * '
+                    else:
+                        border_string += '* * *\n'
+                return border_string
 
             def build_wall(row):
                 wall_string = ''
@@ -140,13 +148,17 @@ class Dungeon():
                         wall_string += '* _ *\n'
                 return wall_string
             if row is self.__maze[0]:
-                line_string += build_wall(row)
+                line_string += build_border(row)
             for room in row:
-                if room is not row[-1]:
+                if room is row[0]:
+                    line_string += f'* {str(room)[0]} '
+                elif room is not row[-1]:
                     line_string += f'| {str(room)[0]} '
                 else:
-                    line_string += f'| {str(room)[0]} |\n'
+                    line_string += f'| {str(room)[0]} *\n'
             line_string += build_wall(row)
+        border = build_border(row)
+        line_string = line_string[:-(len(border))] + border
         return line_string
 
     def adv_map(self):
@@ -157,7 +169,6 @@ class Dungeon():
         """
         line_string = '\n'
         for row in self.__maze:
-
             def build_wall(row):
                 wall_string = ''
                 for room in row:
