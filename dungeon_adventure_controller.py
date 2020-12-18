@@ -224,12 +224,12 @@ class DungeonAdventureController:
                 )
                 index += 1
         # When the room has a treasure.
-        if (self.__current_room.treasure
+        if (self.__current_room.treasure and self.__current_room.treasure
                 not in self.__adventurer.treasure_found):
             self.__adventurer.find_treasure(self.__current_room.treasure)
-            room_string += ('You have found treasure:'
-                            f' {self.__current_room.treasure}!\n')
-            self.__current_room.treasure = None
+        room_string += ('You have found treasure:'
+                        f' {self.__current_room.treasure}!\n')
+        self.__current_room.treasure = None
         # When adventurer dies.
         if self.__adventurer.hit_points < 1:
             room_string += ('Oh noes, you have died! :\'(\n\n'
