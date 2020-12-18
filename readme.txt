@@ -57,5 +57,6 @@ Hours Spent:
     Test files:
      factory_tests.py
      controller_test.py
+     dungeon_tests.py
 
 
