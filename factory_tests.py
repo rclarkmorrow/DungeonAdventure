@@ -1,12 +1,17 @@
+import unittest
+
 from vision_potion import VisionPotion
 from healing_potion import HealingPotion
-import unittest
+from obstacle import Obstacle
 from adventurer_factory import AdventurerFactory, DEFAULT_NAMES, MIN_HP, MAX_HP
 from room_feature_factory import (RoomFeatureFactory, HEALING_MIN, HEALING_MAX,
                                   OBSTACLE_MIN, OBSTACLE_MAX, OBSTACLES)
 
 CUSTOM_HEAL = 50
 HP_STRING = '15'
+CUSTOM_OBSTACLE = ['Dragon', 'You are engulfed in fiery fire!', 25]
+NOT_STRING = VisionPotion()
+
 
 class FactoryTests(unittest.TestCase):
     """ These are unittests for the Dungeon adventure factory classes. """
@@ -65,6 +70,7 @@ class FactoryTests(unittest.TestCase):
 
     def test_create_healing_potion_default(self):
         healing_potion = RoomFeatureFactory.create_healing_potion()
+
         self.assertEqual(type(healing_potion), HealingPotion, 'should return'
                          ' object of type Healing_Potion')
         self.assertLessEqual(healing_potion.hit_points, HEALING_MAX,
@@ -84,6 +90,7 @@ class FactoryTests(unittest.TestCase):
 
     def test_create_healing_potion_custom(self):
         healing_potion = RoomFeatureFactory.create_healing_potion(CUSTOM_HEAL)
+
         self.assertEqual(type(healing_potion), HealingPotion, 'should return'
                          ' object of type Healing_Potion')
         self.assertEqual(CUSTOM_HEAL, healing_potion.hit_points,
@@ -100,11 +107,13 @@ class FactoryTests(unittest.TestCase):
 
     def test_bad_string_input_healing(self):
         """
-          String can't be converted to float should raise ValueError
+          String can't be converted to integer should raise ValueError
         """
         try:
             RoomFeatureFactory.create_healing_potion('dg')
-            self.assertEqual(True, False)
+            self.assertEqual(True, False, 'should not have got here,'
+                             ' healing potion created with hit points not'
+                             ' convertable to integer')
         except ValueError:
             self.assertEqual(True, True)
 
@@ -113,6 +122,7 @@ class FactoryTests(unittest.TestCase):
           Strings convert to floats returns healing potion object
         """
         healing_potion = RoomFeatureFactory.create_healing_potion(HP_STRING)
+
         self.assertEqual(type(healing_potion), HealingPotion, 'should return'
                          ' object of type Healing_Potion')
         self.assertEqual(int(HP_STRING), healing_potion.hit_points,
@@ -132,34 +142,114 @@ class FactoryTests(unittest.TestCase):
           Vision potion created
         """
         vision_potion = RoomFeatureFactory.create_vision_potion()
+
         self.assertEqual(type(vision_potion), VisionPotion, 'should return'
                          ' object of type VisionPotion')
 
-    def test_create_vision_potion_default(self):
+    def test_create_vision_potion_argument(self):
         """
           Error if argument passed to vision potion
         """
-        vision_potion = RoomFeatureFactory.create_vision_potion("argument")
-        self.assertEqual(type(vision_potion), VisionPotion, 'should return'
-                         ' object of type VisionPotion')
-
-    def test_bad_string_input_obstacle(self):
-        """
-          String can't be converted to float should raise ValueError
-        """
         try:
-            RoomFeatureFactory.create_obstacle('dg')
-            self.assertEqual(True, False)
-        except ValueError:
+            RoomFeatureFactory.create_vision_potion('argument')
+            self.assertEqual(True, False, 'should not have got here,'
+                             ' vision potion created with argument')
+        except TypeError:
             self.assertEqual(True, True)
+
+    def test_create_obstacle_default(self):
+        """
+          Create default obstacle
+        """
+        obstacle = RoomFeatureFactory.create_obstacle()
+
+        self.assertEqual(type(obstacle), Obstacle, 'should return'
+                         ' object of type Obstacle')
+        self.assertLessEqual(obstacle.hit_points, OBSTACLE_MAX,
+                             'hit points should be less or equal to'
+                             'default max')
+        self.assertGreaterEqual(obstacle.hit_points, OBSTACLE_MIN,
+                                'hit points should be greater or equal to'
+                                'default max')
+        self.assertTrue(obstacle.name in OBSTACLES.keys(),
+                        'obstacle should have string name')
+        self.assertEqual(obstacle.description, f'An obstacle ({obstacle.name})'
+                         f' that deals {obstacle.hit_points} damage.')
+        self.assertTrue(isinstance(obstacle.effect, str),
+                        'obstacle should have string effect')
+
+    def test_create_obstacle_custom(self):
+        """
+          Create custom obstacle
+        """
+        obstacle = RoomFeatureFactory.create_obstacle(
+            name=CUSTOM_OBSTACLE[0],
+            effect=CUSTOM_OBSTACLE[1],
+            hit_points=CUSTOM_OBSTACLE[2]
+        )
+
+        self.assertEqual(type(obstacle), Obstacle, 'should return'
+                         ' object of type Obstacle')
+        self.assertEqual(obstacle.hit_points, CUSTOM_OBSTACLE[2],
+                         'hit points should match')
+        self.assertEqual(obstacle.name, CUSTOM_OBSTACLE[0],
+                         'nameshould match')
+        self.assertEqual(obstacle.description, f'An obstacle'
+                         f' ({CUSTOM_OBSTACLE[0]})'
+                         f' that deals {CUSTOM_OBSTACLE[2]} damage.')
+        self.assertTrue(CUSTOM_OBSTACLE[1] in obstacle.effect,
+                        'effect should match')
 
     def test_int_string_converts_obstacle(self):
         """
-          Strings convert to floats returns obstacle potion object
+          String converts to int for hit_points
         """
-        obstacle = RoomFeatureFactory.create_obstacle('5')
-        self.assertEqual(type(obstacle), OBSTACLES, 'should return object of '
-                         'type obstacle')
+        obstacle = RoomFeatureFactory.create_obstacle(hit_points=HP_STRING)
+
+        self.assertEqual(type(obstacle), Obstacle, 'should return'
+                         ' object of type Obstacle')
+        self.assertEqual(obstacle.hit_points, int(HP_STRING),
+                         'hit points should match')
+        self.assertTrue(obstacle.name in OBSTACLES.keys(),
+                        'name should match')
+        self.assertTrue(isinstance(obstacle.description, str),
+                        'obstacle should have string description')
+        self.assertTrue(isinstance(obstacle.effect, str),
+                        'effect should be string')
+
+    def test_bad_string_input_obstacle(self):
+        """
+          String can't be converted to int should raise ValueError
+        """
+        try:
+            RoomFeatureFactory.create_obstacle(hit_points='dg')
+            self.assertEqual(True, False, 'should not have got here'
+                             ' hit points created with string')
+        except ValueError:
+            self.assertEqual(True, True)
+
+    def test_bad_name_input_obstacle(self):
+        """
+          Non-string should raise ValueError
+        """
+        try:
+            RoomFeatureFactory.create_obstacle(name=NOT_STRING)
+            self.assertEqual(True, False, 'should not have got here'
+                             ' obstacle created with non-string name')
+        except ValueError:
+            self.assertEqual(True, True)
+
+    def test_bad_effect_input_obstacle(self):
+        """
+          Non-string should raise ValueError
+        """
+        try:
+            RoomFeatureFactory.create_obstacle(effect=NOT_STRING)
+            self.assertEqual(True, False, 'should not have got here'
+                             ' obstacle created with non-string effect')
+        except ValueError:
+            self.assertEqual(True, True)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -3,20 +3,23 @@ from dungeon_adventure_controller import DungeonAdventureController
 from adventurer_factory import DEFAULT_NAMES
 
 ADVENTURER_NAME = 'Tom'
-GAME_COMMANDS = ['n', 'North',
-                 's', 'South',
-                 'e', 'East',
-                 'w', 'West',
-                 'i', 'Info',
-                 'R', 'Room',
-                 'm', 'Map',
-                 'p', 'Potion'
-                 'V', 'Vision'
-                 'c', 'Cheat'
+GAME_COMMANDS = [
+    'n', 'North',
+    's', 'South',
+    'e', 'East',
+    'w', 'West',
+    'i', 'Info',
+    'R', 'Room',
+    'm', 'Map',
+    'p', 'Potion'
+    'V', 'Vision'
+    'c', 'Cheat'
 ]
-CHEAT_COMMANDS = ['t', 'Treasure',
-                  'g', 'god',
-                  'u', 'Unveil']
+CHEAT_COMMANDS = [
+    't', 'Treasure',
+    'g', 'god',
+    'u', 'Unveil'
+]
 
 
 class ControllerTests(unittest.TestCase):
@@ -89,8 +92,7 @@ class ControllerTests(unittest.TestCase):
         game = DungeonAdventureController(ADVENTURER_NAME)
         response, play = game.user_input('q')
         self.assertTrue(game, 'a game should be created')
-        self.assertFalse(play, 'should be true')
-
+        self.assertFalse(play, 'should be false')
 
 
 if __name__ == '__main__':
