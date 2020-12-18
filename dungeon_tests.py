@@ -2,8 +2,9 @@ import unittest
 from dungeon import Dungeon
 from unittest.mock import patch
 
-traversable_li = [(2,2),(2,3),(4,4),(0,4),(1,1),(1,2),(1,0)]
-non_traversable_li = [(2,2),(2,0),(1,1),(0,1),(0,0),(1,2),(1,0)]
+traversable_li = [(2, 2), (2, 3), (4, 4), (0, 4),(1, 1), (1, 2), (1, 0)]
+non_traversable_li = [(2, 2), (2, 0), (1, 1), (0, 1), (0, 0), (1, 2), (1, 0)]
+
 
 class DungeonTests(unittest.TestCase):
     """
@@ -16,7 +17,7 @@ class DungeonTests(unittest.TestCase):
       again but since the return list is now empty, we get an index error.
 
     """
-    @patch.object(Dungeon,'pick_random_empty_room')
+    @patch.object(Dungeon, 'pick_random_empty_room')
     def test_dungeon_traversable(self, mock_rand_empty):
         try:
             mock_rand_empty.side_effect = lambda: traversable_li.pop()
@@ -27,7 +28,7 @@ class DungeonTests(unittest.TestCase):
                              "Shouldn't have got here! "
                              "Traversable dungeon is non traversable.")
 
-    @patch.object(Dungeon,'pick_random_empty_room')
+    @patch.object(Dungeon, 'pick_random_empty_room')
     def test_dungeon_not_traversable(self, mock_rand_empty):
         try:
             mock_rand_empty.side_effect = lambda: non_traversable_li.pop()
@@ -37,3 +38,7 @@ class DungeonTests(unittest.TestCase):
                              "Non traversable dungeon is traversable.")
         except IndexError:
             self.assertEqual(True, True)
+
+
+if __name__ == '__main__':
+    unittest.main()
