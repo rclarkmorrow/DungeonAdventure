@@ -77,28 +77,32 @@ class DungeonAdventureController:
                 if self.__current_room:
                     return self.__enter_room()
                 else:
-                    return 'You cannot go north here.', True
+                    return ('You cannot go north here.\n\n'
+                            f'{self.adventurer_map}', True)
             elif user_input == 's' or user_input == 'south':
                 # Do move south
                 self.__current_room = self.__dungeon.update_adv_pos(1, 0)
                 if self.__current_room:
                     return self.__enter_room()
                 else:
-                    return 'You cannot go south here.', True
+                    return ('You cannot go south here.\n\n'
+                            f'{self.adventurer_map}', True)
             elif user_input == 'e' or user_input == 'east':
                 # Do move east
                 self.__current_room = self.__dungeon.update_adv_pos(0, 1)
                 if self.__current_room:
                     return self.__enter_room()
                 else:
-                    return 'You cannot go east here.', True
+                    return ('You cannot go east here.\n\n'
+                            f'{self.adventurer_map}', True)
             elif user_input == 'w' or user_input == 'west':
                 # Do move west
                 self.__current_room = self.__dungeon.update_adv_pos(0, -1)
                 if self.__current_room:
                     return self.__enter_room()
                 else:
-                    return 'You cannot go west here.', True
+                    return ('You cannot go west here.\n\n'
+                            f'{self.adventurer_map}', True)
 
             # Status commands
             elif user_input == 'i' or user_input == 'info':
@@ -183,8 +187,8 @@ class DungeonAdventureController:
             room_string += 'There is nothing in this room!'
         # When the room is an exit.
         if self.__current_room.is_exit:
-            room_string += ('You have found the exit!\nSun peaks through an'
-                            'opening to the surface. You can hear birds'
+            room_string += ('You have found the exit!\nSun peeks through an'
+                            ' opening to the surface. You can hear birds'
                             ' chirping.\n')
             if sorted(self.__adventurer.treasure_found) == ["ABSTRACTION",
                                                             "ENCAPSULATION",

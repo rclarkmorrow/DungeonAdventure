@@ -1,10 +1,14 @@
 from dungeon_adventure_controller import DungeonAdventureController
 
-WELCOME = ('Welcome to the Dungeon, it\'s got fun and games.')
+
+TITLE = open('title.txt', 'r').read()
+WELCOME = ('Welcome to the Dungeon, it\'s got fun and games.\n'
+           '     (make your terminal window wide')
 INTRO = ('\nYou descend a staircase into the dungeon of objects.'
          '\nThe door slams closed behind you.\nTo escape you'
          ' must find the four treasures that conquer\nobjects'
-         ' and reach the exit.\nGOOD LUCK!')
+         ' and reach the exit.\nEnter \'h\' or \'help\' for'
+         ' available commands.\n\nGOOD LUCK!')
 
 
 class DungeonAdventure:
@@ -20,6 +24,7 @@ class DungeonAdventure:
           The controller randomly selects a default name if left blank.
         """
         if play_game:
+            print(f'{TITLE}\n\n\n')
             print(WELCOME)
             adventurer_name = str(input('\nEnter your adventurer\'s name or'
                                         ' press enter for a default name'
