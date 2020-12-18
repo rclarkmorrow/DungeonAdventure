@@ -169,6 +169,14 @@ class Dungeon():
         """
         line_string = '\n'
         for row in self.__maze:
+            def build_border(row):
+                border_string = ''
+                for room in row:
+                    if room is not row[-1]:
+                        border_string += '* * '
+                    else:
+                        border_string += '* * *\n'
+                return border_string
             def build_wall(row):
                 wall_string = ''
                 for room in row:
@@ -178,9 +186,16 @@ class Dungeon():
                         wall_string += '* _ *\n'
                 return wall_string
             if row is self.__maze[0]:
-                line_string += build_wall(row)
+                line_string += build_border(row)
             for room in row:
-                if room is not row[-1]:
+                if room is row[0]:
+                    if room.current_pos:
+                        line_string += '* C '
+                    elif room.explored:
+                        line_string += f'* {str(room)[0]} '
+                    else:
+                        line_string += '* ? '
+                elif room is not row[-1]:
                     if room.current_pos:
                         line_string += '| C '
                     elif room.explored:
@@ -189,12 +204,14 @@ class Dungeon():
                         line_string += '| ? '
                 else:
                     if room.current_pos:
-                        line_string += '| C |\n'
+                        line_string += '| C *\n'
                     elif room.explored:
-                        line_string += f'| {str(room)[0]} |\n'
+                        line_string += f'| {str(room)[0]} *\n'
                     else:
-                        line_string += '| ? |\n'
+                        line_string += '| ? *\n'
             line_string += build_wall(row)
+        border = build_border(row)
+        line_string = line_string[:-(len(border))] + border
         return line_string
 
     def bfs_reachable_exit_rooms(self, row, col):
