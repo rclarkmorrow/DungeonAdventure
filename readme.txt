@@ -11,19 +11,19 @@ Hours Spent:
    *** Description ***
 
    We had weekly project meetings where we reviewed code, fixed bugs, refactored
-   bits of the project, and did some pair (tri?) programming.
+   bits of the project, and did pair (tri?) programming on all of the class modules.
 
-   Sriba: Dungeon.py, move commands in dungeon_adventure_controller.py, room.py
+   Sriba: dungeon.py, move commands in dungeon_adventure_controller.py, room.py
 
-   Huy: healing_potion.py, vision.py, obstacle.py, room.py, room_feature_factory.py, factory_test.py
+   Huy: healing_potion.py, vision_potion.py, obstacle.py, room.py, room_factory.py, room_feature_factory.py, factory_test.py
 
-   Rick: dungeon_adventure.py, dungeon_adventure_controller.py, room_factory.py, room_feature.py, room_feature_factory.py, 
+   Rick: dungeon_adventure.py, dungeon_adventure_controller.py, room_factory.py, room_feature.py, room_feature_factory.py,
    factory.py, factory_tests.py, adventurer.py, adventurer_factory.py
 
   NOTE:
 
-    There is one test file for factory_tests.py. 
-
-    
+    Test files:
+     factory_tests.py
+     controller_test.py
 
 
