@@ -5,8 +5,8 @@ from vision_potion import VisionPotion
 from obstacle import Obstacle
 
 # Configuration
-HEALING_POTION = randint(5,15)   # 5 - 15 per rubric
-OBSTACLE_DAMAGE = randint(1,20) # 1 - 20 per rubric
+HEALING_POTION = randint(5, 15)   # 5 - 15 per rubric
+OBSTACLE_DAMAGE = randint(1, 20)  # 1 - 20 per rubric
 OBSTACLES = {
   'Pit': 'You fall into a pit filled with spikes.',
 
@@ -24,25 +24,23 @@ class RoomFeatureFactory:
     @staticmethod
     def create_healing_potion(heal_points=HEALING_POTION):
         """
-          Creates an and returns an healing potion object.
-          :: takes an HP range as arguments.
+          Creates and returns a healing potion object.
+          :: takes an HP as argument.
         """
         return HealingPotion(Factory.to_integer(heal_points))
 
     @staticmethod
     def create_vision_potion():
         """
-        Creates an and returns an vision object.
+        Creates and returns a vision object.
         """
         return VisionPotion()
 
     @staticmethod
     def create_obstacle(damage_points=OBSTACLE_DAMAGE):
         """
-        Creates an and returns an obstacle object.
-        :: takes an damage range as arguments.
+        Creates and returns an obstacle object.
+        :: takes damage point as argument.
         """
         name, effect = choice(list(OBSTACLES.items()))
         return Obstacle(name, effect, Factory.to_integer(damage_points))
-
-
