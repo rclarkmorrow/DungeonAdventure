@@ -17,7 +17,7 @@ Hours Spent:
 
    Huy: healing_potion.py, vision_potion.py, obstacle.py, room.py, room_factory.py, room_feature_factory.py, factory_test.py
 
-   Rick: dungeon_adventure.py, dungeon_adventure_controller.py, room_factory.py, room_feature.py, room_feature_factory.py,
+   Rick: dungeon_adventure.py, dungeon_adventure_controller.py, controller_tests.py, room_factory.py, room_feature.py, room_feature_factory.py,
    factory.py, factory_tests.py, adventurer.py, adventurer_factory.py
 
   NOTE:
