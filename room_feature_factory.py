@@ -1,12 +1,15 @@
 from random import choice, randint
+
 from factory import Factory
 from healing_potion import HealingPotion
 from vision_potion import VisionPotion
 from obstacle import Obstacle
 
 # Configuration
-HEALING_POTION = randint(5, 15)   # 5 - 15 per rubric
-OBSTACLE_DAMAGE = randint(1, 20)  # 1 - 20 per rubric
+HEALING_MIN = 5   # 5 - 15 per rubric
+HEALING_MAX = 15
+OBSTACLE_MIN = 1  # 1 - 20 per rubric
+OBSTACLE_MAX = 20
 OBSTACLES = {
   'Pit': 'You fall into a pit filled with spikes.',
 
@@ -17,30 +20,34 @@ OBSTACLES = {
 }
 
 
-class RoomFeatureFactory:
+class RoomFeatureFactory(Factory):
     """
       This factory creates items an adventurer might run into or use.
     """
     @staticmethod
-    def create_healing_potion(heal_points=HEALING_POTION):
+    def create_healing_potion(hit_points=randint(HEALING_MIN, HEALING_MAX)):
         """
-          Creates and returns a healing potion object.
-          :: takes an HP as argument.
+          Creates an and returns an healing potion object.
+          :: takes an HP range as arguments.
         """
-        return HealingPotion(Factory.to_integer(heal_points))
+        return HealingPotion(RoomFeatureFactory.to_integer(hit_points))
 
     @staticmethod
     def create_vision_potion():
         """
-        Creates and returns a vision object.
+        Creates an and returns an vision object.
         """
         return VisionPotion()
 
     @staticmethod
-    def create_obstacle(damage_points=OBSTACLE_DAMAGE):
+    def create_obstacle(name=None, effect=None,
+                        hit_points=randint(OBSTACLE_MIN, OBSTACLE_MAX)):
         """
-        Creates and returns an obstacle object.
-        :: takes damage point as argument.
+        Creates an and returns an obstacle object.
+        :: takes an damage range as arguments.
         """
-        name, effect = choice(list(OBSTACLES.items()))
-        return Obstacle(name, effect, Factory.to_integer(damage_points))
+        if not name and not effect:
+            name, effect = choice(list(OBSTACLES.items()))
+        return Obstacle(RoomFeatureFactory.is_string(name),
+                        RoomFeatureFactory.is_string(effect),
+                        RoomFeatureFactory.to_integer(hit_points))
