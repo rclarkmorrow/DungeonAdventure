@@ -25,11 +25,13 @@ class RoomFeatureFactory(Factory):
       This factory creates items an adventurer might run into or use.
     """
     @staticmethod
-    def create_healing_potion(hit_points=randint(HEALING_MIN, HEALING_MAX)):
+    def create_healing_potion(hit_points=None):
         """
           Creates an and returns an healing potion object.
           :: takes an HP range as arguments.
         """
+        if not hit_points:
+            hit_points = randint(HEALING_MIN, HEALING_MAX)
         return HealingPotion(RoomFeatureFactory.to_integer(hit_points))
 
     @staticmethod
@@ -40,14 +42,16 @@ class RoomFeatureFactory(Factory):
         return VisionPotion()
 
     @staticmethod
-    def create_obstacle(name=None, effect=None,
-                        hit_points=randint(OBSTACLE_MIN, OBSTACLE_MAX)):
+    def create_obstacle(name=None, effect=None, hit_points=None):
         """
         Creates an and returns an obstacle object.
         :: takes an damage range as arguments.
         """
-        if not name and not effect:
+        if not hit_points:
+            hit_points = randint(OBSTACLE_MIN, OBSTACLE_MAX)
+        if not name or not effect:
             name, effect = choice(list(OBSTACLES.items()))
+
         return Obstacle(RoomFeatureFactory.is_string(name),
                         RoomFeatureFactory.is_string(effect),
                         RoomFeatureFactory.to_integer(hit_points))

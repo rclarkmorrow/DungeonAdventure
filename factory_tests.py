@@ -228,25 +228,14 @@ class FactoryTests(unittest.TestCase):
         except ValueError:
             self.assertEqual(True, True)
 
-    def test_bad_name_input_obstacle(self):
+    def test_bad_name_effect_input_obstacle(self):
         """
           Non-string should raise ValueError
         """
         try:
-            RoomFeatureFactory.create_obstacle(name=NOT_STRING)
+            RoomFeatureFactory.create_obstacle(name=NOT_STRING, effect=NOT_STRING)
             self.assertEqual(True, False, 'should not have got here'
-                             ' obstacle created with non-string name')
-        except ValueError:
-            self.assertEqual(True, True)
-
-    def test_bad_effect_input_obstacle(self):
-        """
-          Non-string should raise ValueError
-        """
-        try:
-            RoomFeatureFactory.create_obstacle(effect=NOT_STRING)
-            self.assertEqual(True, False, 'should not have got here'
-                             ' obstacle created with non-string effect')
+                             ' obstacle created with non-string values')
         except ValueError:
             self.assertEqual(True, True)
 
